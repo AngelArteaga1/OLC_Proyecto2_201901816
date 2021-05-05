@@ -18,8 +18,6 @@ function OpLlamada(_expresion, _ambito){
     function llamar(_nombre, lista_valores, _linea, _columna, _ambito){
     var valor = null;
     var metodoEjecutar = _ambito.getFuncion(_nombre)
-    console.log("hola bb");
-    //console.log(_ambito)
     if (metodoEjecutar != null) {
         var nuevoAmbito = new Ambito(_ambito)
         //Si trae parametros
@@ -29,7 +27,6 @@ function OpLlamada(_expresion, _ambito){
                 var error = false;
                 for (let i = 0; i < metodoEjecutar.lista_parametros.length; i++) {
                     var declaracionAsignacion = Instruccion.nuevaDeclaracion(metodoEjecutar.lista_parametros[i].id, lista_valores[i], metodoEjecutar.lista_parametros[i].tipo_dato, _linea, _columna)
-                    //console.log(declaracionAsignacion)
                     const DecParametro = require("../Instruccion/DecParametro")
                     var mensaje = DecParametro(declaracionAsignacion, nuevoAmbito)
                     if (mensaje != null) {
@@ -60,7 +57,6 @@ function OpLlamada(_expresion, _ambito){
         const Bloque = require("../Instruccion/Bloque")
         var exec = Bloque(metodoEjecutar.instrucciones, nuevoAmbito)
         valor = exec.valor
-        console.log(valor);
         return valor
     }
         return{

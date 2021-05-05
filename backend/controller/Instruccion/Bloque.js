@@ -117,7 +117,6 @@ function Bloque(_instrucciones, _ambito){
             existeReturn = true;
             //OBTENEMOS EL VALOR
             valor = Return(instruccion, _ambito);
-            console.log(valor);
             return {
                 existeBreak: existeBreak,
                 existeContinue: existeContinue,

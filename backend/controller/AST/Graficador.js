@@ -358,6 +358,43 @@ class Graficador {
             this.grafo += _padre + '->' + value + ";\n"
             this.contador++
         }
+        else if (_expresion.tipo === TIPO_OPERACION.LLAMADA) {
+            //PADRE
+            var nombreHijo = "Nodo" + this.contador
+            this.contador++
+            this.grafo += nombreHijo + '[label="FUNCION"];\n'
+            this.grafo += _padre + "->" + nombreHijo + ';\n'
+            //NOMBRE
+            var nombreMet = `Nodo${this.contador}`
+            this.grafo += nombreMet + `[label="Identificador \\n ${_expresion.opIzq}"];\n`
+            this.grafo += nombreHijo + "->" + nombreMet + ";\n"
+            this.contador++
+            //SI HAY PARAMETROS
+            if (_expresion.opDer != null) {
+                var nombreLista = `Nodo${this.contador}`
+                this.grafo += nombreLista + `[label="LISTAVALORES"];\n`
+                this.grafo += nombreHijo + "->" + nombreLista + ";\n"
+                this.contador++
+                for (let i = 0; i < _expresion.opDer.length; i++) {
+                    this.graficarOperacion(_expresion.opDer[i], nombreLista)
+                }
+            }
+        }
+        else if (_expresion.tipo === TIPO_OPERACION.CAST) {
+            //PADRE
+            var nombreHijo = "Nodo" + this.contador
+            this.contador++
+            this.grafo += nombreHijo + '[label="CASTEO"];\n'
+            this.grafo += _padre + "->" + nombreHijo + ';\n'
+            //EL TIPO
+            var tipoVar = `Nodo${this.contador}`
+            this.grafo += tipoVar + `[label="TIPO \\n ${_expresion.opIzq}"];\n`
+            this.grafo += nombreHijo + "->" + tipoVar + ";\n"
+            this.contador++
+            //LA EXPRESION
+            this.graficarOperacion(_expresion.opDer, nombreHijo)
+
+        }
         else if (_expresion.tipo === TIPO_OPERACION.SUMA || _expresion.tipo === TIPO_OPERACION.RESTA || _expresion.tipo === TIPO_OPERACION.MULT ||
             _expresion.tipo === TIPO_OPERACION.DIV || _expresion.tipo === TIPO_OPERACION.MOD || _expresion.tipo === TIPO_OPERACION.EXP ||
             _expresion.tipo === TIPO_OPERACION.IGUALIGUAL || _expresion.tipo === TIPO_OPERACION.DIFERENTE || _expresion.tipo === TIPO_OPERACION.MENOR ||

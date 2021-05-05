@@ -88,7 +88,6 @@ function casteo(_op, _tipo, _ambito){
     }
     else if (op.tipo === TIPO_DATO.CARACTER && _tipo === TIPO_DATO.DECIMAL){
         const resultado = op.valor
-        console.log(resultado)
         return{
             valor: resultado.charCodeAt(),
             tipo: TIPO_DATO.DECIMAL,
