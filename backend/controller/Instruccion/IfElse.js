@@ -12,7 +12,7 @@ function sentenciaIfElse(_instruccion, _ambito){
     var operacion = Operacion(_instruccion.expresion, _ambito)
     if (operacion.tipo === TIPO_DATO.BANDERA){
         if(operacion.valor){
-            var nuevoAmbito = new Ambito(_ambito)
+            var nuevoAmbito = new Ambito(_ambito, "If")
             const Bloque = require("./Bloque")
             //mensaje += Bloque(_instruccion.instruccionesIf, nuevoAmbito)
             var exec = Bloque(_instruccion.instruccionesIf, nuevoAmbito)
@@ -22,7 +22,7 @@ function sentenciaIfElse(_instruccion, _ambito){
             existeReturn = exec.existeReturn
             valor = exec.valor
         } else {
-            var nuevoAmbito = new Ambito(_ambito)
+            var nuevoAmbito = new Ambito(_ambito, "Else")
             const Bloque = require("./Bloque")
             //mensaje += Bloque(_instruccion.instruccionesElse, nuevoAmbito)
             var exec = Bloque(_instruccion.instruccionesElse, nuevoAmbito)

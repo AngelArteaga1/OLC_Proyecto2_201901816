@@ -19,7 +19,7 @@ function OpLlamada(_expresion, _ambito){
     var valor = null;
     var metodoEjecutar = _ambito.getFuncion(_nombre)
     if (metodoEjecutar != null) {
-        var nuevoAmbito = new Ambito(_ambito)
+        var nuevoAmbito = new Ambito(_ambito, "Funcion_"+metodoEjecutar.id)
         //Si trae parametros
         if (metodoEjecutar.lista_parametros != null) {
             //Si tienen la misma cantidad

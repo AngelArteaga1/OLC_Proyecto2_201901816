@@ -7,7 +7,7 @@ function CicloDoWhile(_instruccion, _ambito){
     var operacion = Operacion(_instruccion.expresion, _ambito)
     if(operacion.tipo === TIPO_DATO.BANDERA){
         do{
-            var nuevoAmbito = new Ambito(_ambito)
+            var nuevoAmbito = new Ambito(_ambito, "DoWhile")
             const Bloque = require('./Bloque')
             //mensaje+=Bloque(_instruccion.instrucciones, nuevoAmbito)
             var exec = Bloque(_instruccion.instrucciones, nuevoAmbito)

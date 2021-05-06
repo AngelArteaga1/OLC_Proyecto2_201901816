@@ -12,7 +12,7 @@ function sentenciaIf(_instruccion, _ambito){
     var operacion = Operacion(_instruccion.expresion, _ambito)
     if (operacion.tipo === TIPO_DATO.BANDERA){
         if(operacion.valor){
-            var nuevoAmbito = new Ambito(_ambito)
+            var nuevoAmbito = new Ambito(_ambito, "If")
             const Bloque = require("./Bloque")
             //mensaje += Bloque(_instruccion.instrucciones, nuevoAmbito)
             var exec = Bloque(_instruccion.instrucciones, nuevoAmbito)

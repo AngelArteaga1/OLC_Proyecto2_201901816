@@ -12,8 +12,6 @@
 //"\/\/".*                                /* IGNORE */
 [/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]       /* IGNORE */
 "//".*                                /* IGNORE */
-//("/""/".*\n)|("/""/".*\r) /* skip comentario */
-//("/""*"[^\*]*"*""/")      /* skip comentario */
 
 [0-9]+("."[0-9]+)\b  return 'NUMBER'
 [0-9]+               return 'entero'
@@ -44,8 +42,8 @@
 "for"                 return 'for'
 "do"                  return 'do'
 "return"              return 'return'
-"true"                    return 'true'
-"false"                   return 'false'
+"true"                return 'true'
+"false"               return 'false'
 
 "=="                  return 'igualigual'
 "="                   return 'igual'
@@ -89,6 +87,7 @@
 
 /lex
 %{
+      const ListaErrores	= require('./controller/Enums/ListaErrores');
 	const TIPO_OPERACION	= require('./controller/Enums/TipoOperacion');
 	const TIPO_VALOR 		= require('./controller/Enums/TipoValor');
 	const TIPO_DATO	      = require('./controller/Enums/TipoDato'); //para jalar el tipo de dato
@@ -126,6 +125,7 @@ CUERPO: DEC_VAR {$$=$1}
       | DEC_FUNC {$$=$1}
       | AS_VAR {$$=$1}
       | EXEC {$$=$1}
+      | ITERACION {$$=$1}
 ;
 
 EXEC: exec identificador parA parC ptcoma {$$ = INSTRUCCION.nuevoExec($2, null,this._$.first_line,this._$.first_column+1)}
@@ -183,8 +183,8 @@ EXPRESION: EXPRESION suma EXPRESION {$$= INSTRUCCION.nuevaOperacionBinaria($1,$3
          | EXPRESION menosmenos {$$= INSTRUCCION.nuevaOperacionBinaria($1,$1, TIPO_OPERACION.MENOSMENOS,this._$.first_line,this._$.first_column+1);}
          | identificador corA EXPRESION corC // para vectores
          | identificador corA corA EXPRESION corC corC // para listas
-         | identificador parA  parC {$$= INSTRUCCION.nuevaOperacionBinaria($1,null, TIPO_OPERACION.LLAMADA,this._$.first_line,this._$.first_column+1);} //llamada
-         | identificador parA LISTAVALORES parC {$$= INSTRUCCION.nuevaOperacionBinaria($1,$3, TIPO_OPERACION.LLAMADA,this._$.first_line,this._$.first_column+1);} //llamada
+         | identificador parA  parC {$$= INSTRUCCION.nuevaOperacionBinaria($1,null, TIPO_OPERACION.LLAMADA,this._$.first_line,this._$.first_column+1);} //LLAMADA
+         | identificador parA LISTAVALORES parC {$$= INSTRUCCION.nuevaOperacionBinaria($1,$3, TIPO_OPERACION.LLAMADA,this._$.first_line,this._$.first_column+1);} //LLAMADA
          | NUMBER {$$ = INSTRUCCION.nuevoValor(Number($1), TIPO_VALOR.DOUBLE, this._$.first_line,this._$.first_column+1)}
          | entero {$$ = INSTRUCCION.nuevoValor(Number($1), TIPO_VALOR.DECIMAL, this._$.first_line,this._$.first_column+1)}
          | true {$$ = INSTRUCCION.nuevoValor(($1), TIPO_VALOR.BANDERA, this._$.first_line,this._$.first_column+1)}
@@ -236,7 +236,12 @@ CUERPOMETODO: DEC_VAR {$$=$1}
             | PRINT {$$=$1}
             | BREAK {$$=$1}
             | CONTINUE {$$=$1}
-            | RETURN
+            | RETURN {$$=$1}
+            | ITERACION {$$=$1}
+;
+
+ITERACION: identificador sumasuma ptcoma {$$ = INSTRUCCION.nuevaAsignacion($1, (INSTRUCCION.nuevaOperacionBinaria(($$ = INSTRUCCION.nuevoValor($1, TIPO_VALOR.IDENTIFICADOR, this._$.first_line,this._$.first_column+1)),(INSTRUCCION.nuevoValor(Number(1), TIPO_VALOR.DECIMAL, this._$.first_line,this._$.first_column+1)), TIPO_OPERACION.SUMA,this._$.first_line,this._$.first_column+1)),this._$.first_line,this._$.first_column+1)}
+         | identificador menosmenos ptcoma {$$ = INSTRUCCION.nuevaAsignacion($1, (INSTRUCCION.nuevaOperacionBinaria(($$ = INSTRUCCION.nuevoValor($1, TIPO_VALOR.IDENTIFICADOR, this._$.first_line,this._$.first_column+1)),(INSTRUCCION.nuevoValor(Number(1), TIPO_VALOR.DECIMAL, this._$.first_line,this._$.first_column+1)), TIPO_OPERACION.RESTA,this._$.first_line,this._$.first_column+1)),this._$.first_line,this._$.first_column+1)}
 ;
 
 IF: if parA EXPRESION parC llaveA OPCIONESMETODO llaveC {$$ = INSTRUCCION.nuevoIf($3, $6, this._$.first_line,this._$.first_column+1)}
@@ -281,81 +286,3 @@ AS_DEC: TIPO identificador igual EXPRESION {$$ = INSTRUCCION.nuevaDeclaracion($2
 
 DO_WHILE: do llaveA OPCIONESMETODO llaveC while parA EXPRESION parC ptcoma {$$ = new INSTRUCCION.nuevoDoWhile($7, $3 , this._$.first_line,this._$.first_column+1)}
 ;
-
-/*INICIO: clase identificador llaveA OPCIONESCUERPO llaveC EOF{return $4;}
-;
-
-OPCIONESCUERPO: OPCIONESCUERPO CUERPO {$1.push($2); $$=$1;}
-              | CUERPO {$$=[$1];}
-;
-
-CUERPO: DEC_VAR {$$=$1}
-      | WHILE {$$=$1}
-      | IMPRIMIR {$$=$1}
-      | DEC_MET {$$=$1}
-      | AS_VAR {$$=$1}
-;
-
-AS_VAR: identificador menor menos EXPRESION ptcoma {$$ = INSTRUCCION.nuevaAsignacion($1, $4, this._$.first_line,this._$.first_column+1)}
-;
-
-DEC_VAR: TIPO identificador ptcoma {$$ = INSTRUCCION.nuevaDeclaracion($2, null, $1, this._$.first_line,this._$.first_column+1)}
-       | TIPO identificador menor menos EXPRESION ptcoma {$$ = INSTRUCCION.nuevaDeclaracion($2, $5, $1, this._$.first_line,this._$.first_column+1)}
-;
-
-TIPO: decimal {$$ = TIPO_DATO.DECIMAL}
-    | cadena {$$ = TIPO_DATO.CADENA}
-    | bandera {$$ = TIPO_DATO.BANDERA}
-;
-
-
-EXPRESION: EXPRESION suma EXPRESION {$$= INSTRUCCION.nuevaOperacionBinaria($1,$3, TIPO_OPERACION.SUMA,this._$.first_line,this._$.first_column+1);}
-         | EXPRESION menos EXPRESION {$$= INSTRUCCION.nuevaOperacionBinaria($1,$3, TIPO_OPERACION.RESTA,this._$.first_line,this._$.first_column+1);}
-         | EXPRESION multi EXPRESION
-         | EXPRESION div EXPRESION
-         | EXPRESION exponente EXPRESION
-         | EXPRESION modulo EXPRESION
-         | menos EXPRESION %prec umenos
-         | parA EXPRESION parC {$$=$2}
-         | EXPRESION igualigual EXPRESION {$$= INSTRUCCION.nuevaOperacionBinaria($1,$3, TIPO_OPERACION.IGUALIGUAL,this._$.first_line,this._$.first_column+1);}
-         | EXPRESION diferente EXPRESION {$$= INSTRUCCION.nuevaOperacionBinaria($1,$3, TIPO_OPERACION.DIFERENTE,this._$.first_line,this._$.first_column+1);}
-         | EXPRESION menor EXPRESION {$$= INSTRUCCION.nuevaOperacionBinaria($1,$3, TIPO_OPERACION.MENOR,this._$.first_line,this._$.first_column+1);}
-         | EXPRESION menorigual EXPRESION
-         | EXPRESION mayor EXPRESION {$$= INSTRUCCION.nuevaOperacionBinaria($1,$3, TIPO_OPERACION.MAYOR,this._$.first_line,this._$.first_column+1);}
-         | EXPRESION mayorigual EXPRESION 
-         | EXPRESION or EXPRESION {$$= INSTRUCCION.nuevaOperacionBinaria($1,$3, TIPO_OPERACION.OR,this._$.first_line,this._$.first_column+1);}
-         | EXPRESION and EXPRESION {$$= INSTRUCCION.nuevaOperacionBinaria($1,$3, TIPO_OPERACION.AND,this._$.first_line,this._$.first_column+1);}
-         | not EXPRESION
-         | NUMBER {$$ = INSTRUCCION.nuevoValor(Number($1), TIPO_VALOR.DECIMAL, this._$.first_line,this._$.first_column+1)}
-         | true {$$ = INSTRUCCION.nuevoValor(($1), TIPO_VALOR.BANDERA, this._$.first_line,this._$.first_column+1)}
-         | false {$$ = INSTRUCCION.nuevoValor($1, TIPO_VALOR.BANDERA, this._$.first_line,this._$.first_column+1)}
-         | string {$$ = INSTRUCCION.nuevoValor($1, TIPO_VALOR.CADENA, this._$.first_line,this._$.first_column+1)}
-         | identificador {$$ = INSTRUCCION.nuevoValor($1, TIPO_VALOR.IDENTIFICADOR, this._$.first_line,this._$.first_column+1)}
-;
-
-DEC_MET : identificador parA parC llaveA OPCIONESMETODO llaveC
-        | identificador parA LISTAPARAMETROS parC llaveA OPCIONESMETODO llaveC
-;
-
-LISTAPARAMETROS: LISTAPARAMETROS coma  PARAMETROS
-               | PARAMETROS
-;
-
-PARAMETROS: TIPO identificador
-;
-
-OPCIONESMETODO: OPCIONESMETODO CUERPOMETODO  {$1.push($2); $$=$1;}
-              | CUERPOMETODO {$$=[$1];}
-;
-
-CUERPOMETODO: DEC_VAR {$$=$1}
-            | WHILE {$$=$1}
-            | IMPRIMIR {$$=$1}
-            | AS_VAR {$$=$1}
-;
-
-IMPRIMIR: cout menor menor EXPRESION ptcoma{$$ = new INSTRUCCION.nuevoCout($4, this._$.first_line,this._$.first_column+1)}
-;
-
-WHILE: while parA EXPRESION parC llaveA OPCIONESMETODO llaveC {$$ = new INSTRUCCION.nuevoWhile($3, $6 , this._$.first_line,this._$.first_column+1)}
-;*/

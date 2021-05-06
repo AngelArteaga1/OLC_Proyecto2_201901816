@@ -9,7 +9,7 @@ function CicloFor(_instruccion, _ambito){
     //console.log(_instruccion)
     var mensaje = ""
     var error = ""
-    var nuevoAmbito = new Ambito(_ambito)
+    var nuevoAmbito = new Ambito(_ambito, "For")
     if (_instruccion.declaracion.tipo === TIPO_INSTRUCCION.DECLARACION){
         error = Declaracion(_instruccion.declaracion, nuevoAmbito)
     }
@@ -25,10 +25,9 @@ function CicloFor(_instruccion, _ambito){
     //console.log(condicion)
     if(condicion.tipo === TIPO_DATO.BANDERA){
         while(condicion.valor){
-            var nuevoAmbito2 = new Ambito(nuevoAmbito)
             const Bloque = require('./Bloque')
             //mensaje+=Bloque(_instruccion.instrucciones, nuevoAmbito2)
-            var exec = Bloque(_instruccion.instrucciones, nuevoAmbito2)
+            var exec = Bloque(_instruccion.instrucciones, nuevoAmbito)
             mensaje += exec.cadena
             if (exec.existeBreak){
                 return mensaje

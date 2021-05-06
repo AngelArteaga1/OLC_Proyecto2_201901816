@@ -4,20 +4,21 @@ const DecFuncion = require("./DecFuncion")
 const Declaracion = require("./Declaracion")
 const DecMetodo = require("./DecMetodo")
 const Exec = require("./Exec")
+const ListaSimbolos = require("../Enums/ListaSimbolos")
 
 function Global(_instrucciones, _ambito) {
     var cadena = ""
     //PRIMERA PASADA, QUE VENGA UN EXEC
     var contadorExec = 0
-    for(let i = 0; i < _instrucciones.length; i++) {
+    for (let i = 0; i < _instrucciones.length; i++) {
         if (_instrucciones[i].tipo === TIPO_INSTRUCCION.EXEC) {
             contadorExec++;
         }
     }
-    if(contadorExec == 0){
+    if (contadorExec == 0) {
         return `Error: No se ha encontrado un Exec() para ser ejecutado`
     }
-    if(contadorExec > 1){
+    if (contadorExec > 1) {
         return `Error: Se han encontrado mas de un Exec() para ejecutar`
     }
     //SEGUNDA PASADA, DECLARAR VARIABLES, METODOS Y ASIGNACIONES
@@ -48,7 +49,7 @@ function Global(_instrucciones, _ambito) {
         }
     }
     //TERCERA PASADA, BUSCAMOS EL EXEC A EJECUTAR
-    for(let i = 0; i < _instrucciones.length; i++) {
+    for (let i = 0; i < _instrucciones.length; i++) {
         if (_instrucciones[i].tipo === TIPO_INSTRUCCION.EXEC) {
             //console.log(_instrucciones[i])
             var mensaje = Exec(_instrucciones[i], _ambito)
@@ -62,3 +63,4 @@ function Global(_instrucciones, _ambito) {
 }
 
 module.exports = Global
+//module.exports = ListaSimbolos

@@ -1,6 +1,9 @@
+const ListaSimbolos = require("../Enums/ListaSimbolos")
+
 class Ambito{
-    constructor(_anterior){
-        this.anterior = _anterior
+    constructor(_anterior, _entorno){
+        this.anterior = _anterior;
+        this.entorno = _entorno;
         this.tablaSimbolos = new Map();
         this.tablaMetodos = new Map();
         this.tablaFunciones = new Map();
@@ -8,14 +11,42 @@ class Ambito{
 
     addSimbolo(_s, _simbolo){
         this.tablaSimbolos.set(_s.toLowerCase(), _simbolo)
+        //INGRESAMOS A LA TABLA DE SIMBOLOS
+        var sim = {
+            Identificador: _simbolo.id,
+            TipoVar: "Variable",
+            Tipo: _simbolo.tipo,
+            Entorno: this.entorno,
+            Linea: _simbolo.linea,
+            Columna: _simbolo.columna
+        }
+        ListaSimbolos.push(sim)
     }
 
     addMetodo(_s, _metodo){
         this.tablaMetodos.set(_s.toLowerCase(), _metodo)
+        var sim = {
+            Identificador: _metodo.id,
+            TipoVar: "Metodo",
+            Tipo: "Void",
+            Entorno: this.entorno,
+            Linea: _metodo.linea,
+            Columna: _metodo.columna
+        }
+        ListaSimbolos.push(sim)
     }
 
     addFuncion(_s, _metodo){
         this.tablaFunciones.set(_s.toLowerCase(), _metodo)
+        var sim = {
+            Identificador: _metodo.id,
+            TipoVar: "Funcion",
+            Tipo: _metodo.tipo,
+            Entorno: this.entorno,
+            Linea: _metodo.linea,
+            Columna: _metodo.columna
+        }
+        ListaSimbolos.push(sim)
     }
 
     getSimbolo(_s){ //(hola, clase simbolo)
