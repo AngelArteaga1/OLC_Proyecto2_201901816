@@ -10,6 +10,7 @@ function sentenciaIf(_instruccion, _ambito){
     var existeReturn = false
     var valor = null
     var operacion = Operacion(_instruccion.expresion, _ambito)
+    mensaje += operacion.mensaje
     if (operacion.tipo === TIPO_DATO.BANDERA){
         if(operacion.valor){
             var nuevoAmbito = new Ambito(_ambito, "If")

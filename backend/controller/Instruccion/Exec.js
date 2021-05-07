@@ -27,16 +27,10 @@ function Exec(_instruccion, _ambito) {
                     //console.log(declaracionAsignacion.id)
                     //console.log(declaracionAsignacion.valor)
                     var mensaje = Declaracion(declaracionAsignacion, nuevoAmbito)
-                    if (mensaje != null) {
-                        error = true;
-                        cadena += mensaje + '\n'
-                    }
+                    cadena += mensaje
                 }
                 //console.log(nuevoAmbito.tablaSimbolos);
                 //console.log("TREMENDO");
-                if (error) {
-                    return cadena
-                }
                 //console.log(_ambito);
                 //return Bloque(metodoEjecutar.instrucciones, nuevoAmbito)
                 var exec = Bloque(metodoEjecutar.instrucciones, nuevoAmbito)

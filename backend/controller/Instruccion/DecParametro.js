@@ -4,10 +4,12 @@ const Operacion = require("../Operacion/Operacion");
 const ListaSimbolos = require("../Enums/ListaSimbolos")
 
 function DecParametro(_instruccion, _ambito){
+    var cadena = ""
     if(_instruccion.tipo_dato === TIPO_DATO.DECIMAL){
         var valor = 0.0
         if(_instruccion.valor != null){
             var op = Operacion(_instruccion.valor, _ambito)
+            cadena = op.mensaje
             tipo = op.tipo;
             if(tipo === TIPO_DATO.DECIMAL){
                 valor = op.valor;
@@ -22,12 +24,13 @@ function DecParametro(_instruccion, _ambito){
         }
         _ambito.addSimbolo(nuevoSimbolo.id, nuevoSimbolo)
         //console.log(_ambito)
-        return null
+        return cadena
     }
     else if(_instruccion.tipo_dato === TIPO_DATO.DOUBLE){
         var valor = 0.0
         if(_instruccion.valor != null){
             var op = Operacion(_instruccion.valor, _ambito)
+            cadena = op.mensaje
             tipo = op.tipo;
             if(tipo === TIPO_DATO.DOUBLE || tipo === TIPO_DATO.DECIMAL){
                 valor = op.valor;
@@ -42,13 +45,14 @@ function DecParametro(_instruccion, _ambito){
         }
         _ambito.addSimbolo(nuevoSimbolo.id, nuevoSimbolo)
         //console.log(_ambito)
-        return null
+        return cadena
     }
     else if(_instruccion.tipo_dato === TIPO_DATO.CADENA){
         var valor = "" // en caso sea sin asignación inicializamos la variable
         //si es una declaracion con asignacion
         if(_instruccion.valor!=null){
             op = Operacion(_instruccion.valor, _ambito)
+            cadena = op.mensaje
             tipo = op.tipo;
             if(tipo === TIPO_DATO.CADENA){
                 valor = String(op.valor) //casteamos a cadena
@@ -62,7 +66,7 @@ function DecParametro(_instruccion, _ambito){
             return "Error: La variable '"+ nuevoSimbolo.id +"' ya existe... Linea: "+nuevoSimbolo.linea+" Columna: "+ nuevoSimbolo.columna;
         }
         _ambito.addSimbolo(nuevoSimbolo.id, nuevoSimbolo)
-        return null
+        return cadena
         //console.log(_ambito)
     }
     else if (_instruccion.tipo_dato === TIPO_DATO.CARACTER){
@@ -70,6 +74,7 @@ function DecParametro(_instruccion, _ambito){
         //si es una declaracion con asignacion
         if(_instruccion.valor!=null){
             op = Operacion(_instruccion.valor, _ambito)
+            cadena = op.mensaje
             tipo = op.tipo
             if (tipo===TIPO_DATO.CARACTER){
                 valor = String(op.valor) //casteamos a cadena
@@ -84,7 +89,7 @@ function DecParametro(_instruccion, _ambito){
             return "Error: La variable '"+ nuevoSimbolo.id +"' ya existe... Linea: "+nuevoSimbolo.linea+" Columna: "+ nuevoSimbolo.columna;
         }
         _ambito.addSimbolo(nuevoSimbolo.id, nuevoSimbolo)
-        return null
+        return cadena
         //console.log(_ambito)
     }
     else if(_instruccion.tipo_dato === TIPO_DATO.BANDERA){
@@ -92,6 +97,7 @@ function DecParametro(_instruccion, _ambito){
         //si es una declaracion con asignacion
         if(_instruccion.valor!=null){
             op = Operacion(_instruccion.valor, _ambito)
+            cadena = op.mensaje
             tipo = op.tipo
             //verificamos que el valor a asignar sea del mismo tipo
             if(tipo===TIPO_DATO.BANDERA){
@@ -107,7 +113,7 @@ function DecParametro(_instruccion, _ambito){
             return "Error: La variable '"+ nuevoSimbolo.id +"' ya existe... Linea: "+nuevoSimbolo.linea+" Columna: "+ nuevoSimbolo.columna;
         }
         _ambito.addSimbolo(nuevoSimbolo.id, nuevoSimbolo)
-        return null
+        return cadena
         //console.log(_ambito)
     }
 }

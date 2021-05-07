@@ -5,6 +5,7 @@ const Operacion = require("../Operacion/Operacion")
 function CicloDoWhile(_instruccion, _ambito){
     var mensaje = ""
     var operacion = Operacion(_instruccion.expresion, _ambito)
+    mensaje += operacion.mensaje
     if(operacion.tipo === TIPO_DATO.BANDERA){
         do{
             var nuevoAmbito = new Ambito(_ambito, "DoWhile")
@@ -17,6 +18,7 @@ function CicloDoWhile(_instruccion, _ambito){
             }
             //actualizamos
             operacion = Operacion(_instruccion.expresion, _ambito)
+            mensaje += operacion.mensaje
         } while(operacion.valor);
         return mensaje
     }

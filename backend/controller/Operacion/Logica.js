@@ -39,6 +39,9 @@ function Logica(_expresion, _ambito){
 function or(_opIzq, _opDer, _ambito){
     const opIzq = Logica(_opIzq, _ambito)
     const opDer = Logica(_opDer, _ambito)
+    var mensaje = ""
+    mensaje += opIzq.mensaje
+    mensaje += opDer.mensaje
     //console.log(_opDer)
     /*
     1 || 1 = 1
@@ -54,6 +57,7 @@ function or(_opIzq, _opDer, _ambito){
         return {
             valor: resultado,
             tipo: TIPO_DATO.BANDERA,
+            mensaje: mensaje,
             linea: _opIzq.linea,
             columna: _opIzq.columna
         }
@@ -62,6 +66,7 @@ function or(_opIzq, _opDer, _ambito){
     return{
         valor: respuesta+ `\nError semántico: no se puede comparar el valor de tipo ${opIzq.tipo} \ncon el valor de tipo ${opDer.tipo}... Linea: +${_opIzq.linea}+" Columna: "+${_opIzq.columna}`,
         tipo: null,
+        mensaje: mensaje,
         linea: _opIzq.linea,
         columna: _opIzq.columna
     }
@@ -69,6 +74,9 @@ function or(_opIzq, _opDer, _ambito){
 function and(_opIzq, _opDer, _ambito){
     const opIzq = Logica(_opIzq, _ambito)
     const opDer = Logica(_opDer, _ambito)
+    var mensaje = ""
+    mensaje += opIzq.mensaje
+    mensaje += opDer.mensaje
     //console.log(_opDer)
     /*
     1 && 1 = 1
@@ -84,6 +92,7 @@ function and(_opIzq, _opDer, _ambito){
         return {
             valor: resultado,
             tipo: TIPO_DATO.BANDERA,
+            mensaje: mensaje,
             linea: _opIzq.linea,
             columna: _opIzq.columna
         }
@@ -92,6 +101,7 @@ function and(_opIzq, _opDer, _ambito){
     return{
         valor: respuesta+ `\nError semántico: no se puede comparar el valor de tipo ${opIzq.tipo} \ncon el valor de tipo ${opDer.tipo}... Linea: +${_opIzq.linea}+" Columna: "+${_opIzq.columna}`,
         tipo: null,
+        mensaje: mensaje,
         linea: _opIzq.linea,
         columna: _opIzq.columna
     }
@@ -100,6 +110,9 @@ function and(_opIzq, _opDer, _ambito){
 function not(_opIzq, _opDer, _ambito){
     const opIzq = Logica(_opIzq, _ambito)
     const opDer = Logica(_opDer, _ambito)
+    var mensaje = ""
+    mensaje += opIzq.mensaje
+    mensaje += opDer.mensaje
     if(opIzq.tipo == opDer.tipo && opIzq.tipo === TIPO_DATO.BANDERA){
         var resultado;
         if (opIzq.valor == true){
@@ -110,6 +123,7 @@ function not(_opIzq, _opDer, _ambito){
         return {
             valor: resultado,
             tipo: TIPO_DATO.BANDERA,
+            mensaje: mensaje,
             linea: _opIzq.linea,
             columna: _opIzq.columna
         }
@@ -118,6 +132,7 @@ function not(_opIzq, _opDer, _ambito){
     return{
         valor: respuesta+ `\nError semántico: no se puede negar el valor de tipo ${opIzq.tipo} \ncon el valor de tipo ${opDer.tipo}... Linea: +${_opIzq.linea}+" Columna: "+${_opIzq.columna}`,
         tipo: null,
+        mensaje: mensaje,
         linea: _opIzq.linea,
         columna: _opIzq.columna
     }

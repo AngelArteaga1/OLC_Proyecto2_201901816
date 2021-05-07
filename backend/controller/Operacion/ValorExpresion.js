@@ -6,6 +6,7 @@ function ValorExpresion(_expresion, _ambito){
         return {
             valor: Number(_expresion.valor),
             tipo: TIPO_DATO.DECIMAL,
+            mensaje: "",
             linea: _expresion.linea,
             columna: _expresion.columna
         }
@@ -14,6 +15,7 @@ function ValorExpresion(_expresion, _ambito){
         return {
             valor: Number(_expresion.valor),
             tipo: TIPO_DATO.DOUBLE,
+            mensaje: "",
             linea: _expresion.linea,
             columna: _expresion.columna
         }
@@ -22,6 +24,7 @@ function ValorExpresion(_expresion, _ambito){
         return {
             valor: _expresion.valor.toLowerCase()==='true' ? true: false,
             tipo: TIPO_DATO.BANDERA,
+            mensaje: "",
             linea: _expresion.linea,
             columna: _expresion.columna
         }
@@ -30,6 +33,7 @@ function ValorExpresion(_expresion, _ambito){
         return {
             valor: _expresion.valor.substring(1, _expresion.valor.length-1),
             tipo: TIPO_DATO.CADENA,
+            mensaje: "",
             linea: _expresion.linea,
             columna: _expresion.columna
         }
@@ -38,6 +42,7 @@ function ValorExpresion(_expresion, _ambito){
         return {
             valor: _expresion.valor.substring(1, _expresion.valor.length-1),
             tipo: TIPO_DATO.CARACTER,
+            mensaje: "",
             linea: _expresion.linea,
             columna: _expresion.columna
         }
@@ -48,6 +53,7 @@ function ValorExpresion(_expresion, _ambito){
             return {
                 valor: simbolo.valor,
                 tipo: simbolo.tipo,
+                mensaje: "",
                 linea: simbolo.linea,
                 columna: simbolo.columna
             }
@@ -55,6 +61,7 @@ function ValorExpresion(_expresion, _ambito){
         return {
             valor: "Error: la variable '"+_expresion.valor+"' no existe... Linea: "+_expresion.linea+" Columna: "+_expresion.columna,
             tipo: null,
+            mensaje: "",
             linea: _expresion.linea,
             columna: _expresion.columna
         }

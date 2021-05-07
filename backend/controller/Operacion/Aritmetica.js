@@ -52,6 +52,11 @@ function suma(_opIzq, _opDer, _ambito){
     const opIzq = Aritmetica(_opIzq,_ambito)
     const opDer = Aritmetica(_opDer,_ambito)
     const tipoRes = TipoResultado(opIzq.tipo, opDer.tipo)
+    /*var mensaje = opIzq.mensaje;
+    mensaje += mensaje + opDer.mensaje;*/
+    var mensaje = ""
+    mensaje += opIzq.mensaje
+    mensaje += opDer.mensaje
     if(tipoRes!=null){
         if(tipoRes === TIPO_DATO.DECIMAL || tipoRes === TIPO_DATO.DOUBLE){
             if (opIzq.tipo == TIPO_DATO.CARACTER){
@@ -59,6 +64,7 @@ function suma(_opIzq, _opDer, _ambito){
                 return{
                     valor: resultado,
                     tipo: tipoRes,
+                    mensaje: mensaje,
                     linea: _opIzq.linea,
                     columna: _opIzq.columna
                 }
@@ -67,6 +73,7 @@ function suma(_opIzq, _opDer, _ambito){
                 return{
                     valor: resultado,
                     tipo: tipoRes,
+                    mensaje: mensaje,
                     linea: _opIzq.linea,
                     columna: _opIzq.columna
                 }
@@ -75,6 +82,7 @@ function suma(_opIzq, _opDer, _ambito){
                 return{
                     valor: resultado,
                     tipo: tipoRes,
+                    mensaje: mensaje,
                     linea: _opIzq.linea,
                     columna: _opIzq.columna
                 }
@@ -85,6 +93,7 @@ function suma(_opIzq, _opDer, _ambito){
             return{
                 valor: resultado,
                 tipo: tipoRes,
+                mensaje: mensaje,
                 linea: _opIzq.linea,
                 columna: _opIzq.columna
             }
@@ -94,6 +103,7 @@ function suma(_opIzq, _opDer, _ambito){
             return{
                 valor: resultado,
                 tipo: tipoRes,
+                mensaje: mensaje,
                 linea: _opIzq.linea,
                 columna: _opIzq.columna
             }
@@ -103,6 +113,7 @@ function suma(_opIzq, _opDer, _ambito){
     return{
         valor: respuesta+'\nError semántico: no se puede realizar la operacion suma... Linea: '+_opIzq.linea+" Columna: "+_opIzq.columna,
         tipo: null,
+        mensaje: mensaje,
         linea: _opIzq.linea,
         columna: _opIzq.columna
     }
@@ -112,12 +123,16 @@ function resta(_opIzq, _opDer, _ambito){
     const opIzq = Aritmetica(_opIzq,_ambito)
     const opDer = Aritmetica(_opDer,_ambito)
     const tipoRes = TipoResultado(opIzq.tipo, opDer.tipo)
+    var mensaje = ""
+    mensaje += opIzq.mensaje
+    mensaje += opDer.mensaje
     if(tipoRes === TIPO_DATO.DECIMAL || tipoRes === TIPO_DATO.DOUBLE){
         if (opIzq.tipo == TIPO_DATO.CARACTER){
             const resultado = (opIzq.valor.toString()).charCodeAt() - Number(opDer.valor);
             return{
                 valor: resultado,
                 tipo: tipoRes,
+                mensaje: mensaje,
                 linea: _opIzq.linea,
                 columna: _opIzq.columna
             }
@@ -126,6 +141,7 @@ function resta(_opIzq, _opDer, _ambito){
             return{
                 valor: resultado,
                 tipo: tipoRes,
+                mensaje: mensaje,
                 linea: _opIzq.linea,
                 columna: _opIzq.columna
             }
@@ -134,6 +150,7 @@ function resta(_opIzq, _opDer, _ambito){
             return{
                 valor: resultado,
                 tipo: tipoRes,
+                mensaje: mensaje,
                 linea: _opIzq.linea,
                 columna: _opIzq.columna
             }
@@ -143,6 +160,7 @@ function resta(_opIzq, _opDer, _ambito){
     return{
         valor: respuesta+'\nError semántico: no se puede realizar la operacion resta... Linea: '+_opIzq.linea+" Columna: "+_opIzq.columna,
         tipo: null,
+        mensaje: mensaje,
         linea: _opIzq.linea,
         columna: _opIzq.columna
     }
@@ -152,6 +170,9 @@ function mult(_opIzq, _opDer, _ambito){
     const opIzq = Aritmetica(_opIzq,_ambito)
     const opDer = Aritmetica(_opDer,_ambito)
     const tipoRes = TipoResultado(opIzq.tipo, opDer.tipo)
+    var mensaje = ""
+    mensaje += opIzq.mensaje
+    mensaje += opDer.mensaje
     if(tipoRes!=null){
         if(tipoRes === TIPO_DATO.DECIMAL || tipoRes === TIPO_DATO.DOUBLE){
             if (opIzq.tipo == TIPO_DATO.CARACTER){
@@ -159,6 +180,7 @@ function mult(_opIzq, _opDer, _ambito){
                 return{
                     valor: resultado,
                     tipo: tipoRes,
+                    mensaje: mensaje,
                     linea: _opIzq.linea,
                     columna: _opIzq.columna
                 }
@@ -167,6 +189,7 @@ function mult(_opIzq, _opDer, _ambito){
                 return{
                     valor: resultado,
                     tipo: tipoRes,
+                    mensaje: mensaje,
                     linea: _opIzq.linea,
                     columna: _opIzq.columna
                 }
@@ -175,6 +198,7 @@ function mult(_opIzq, _opDer, _ambito){
                 return{
                     valor: resultado,
                     tipo: tipoRes,
+                    mensaje: mensaje,
                     linea: _opIzq.linea,
                     columna: _opIzq.columna
                 }
@@ -185,6 +209,7 @@ function mult(_opIzq, _opDer, _ambito){
     return{
         valor: respuesta+'\nError semántico: no se puede realizar la operacion multiplicación... Linea: '+_opIzq.linea+" Columna: "+_opIzq.columna,
         tipo: null,
+        mensaje: mensaje,
         linea: _opIzq.linea,
         columna: _opIzq.columna
     }
@@ -194,6 +219,9 @@ function div(_opIzq, _opDer, _ambito){
     const opIzq = Aritmetica(_opIzq,_ambito)
     const opDer = Aritmetica(_opDer,_ambito)
     const tipoRes = TipoResultado(opIzq.tipo, opDer.tipo)
+    var mensaje = ""
+    mensaje += opIzq.mensaje
+    mensaje += opDer.mensaje
     if(tipoRes!=null){
         if(tipoRes!=null){
             if(tipoRes === TIPO_DATO.DECIMAL || tipoRes === TIPO_DATO.DOUBLE){
@@ -202,6 +230,7 @@ function div(_opIzq, _opDer, _ambito){
                     return{
                         valor: resultado,
                         tipo: TIPO_DATO.DOUBLE,
+                        mensaje: mensaje,
                         linea: _opIzq.linea,
                         columna: _opIzq.columna
                     }
@@ -210,6 +239,7 @@ function div(_opIzq, _opDer, _ambito){
                     return{
                         valor: resultado,
                         tipo: TIPO_DATO.DOUBLE,
+                        mensaje: mensaje,
                         linea: _opIzq.linea,
                         columna: _opIzq.columna
                     }
@@ -218,6 +248,7 @@ function div(_opIzq, _opDer, _ambito){
                     return{
                         valor: resultado,
                         tipo: TIPO_DATO.DOUBLE,
+                        mensaje: mensaje,
                         linea: _opIzq.linea,
                         columna: _opIzq.columna
                     }
@@ -229,6 +260,7 @@ function div(_opIzq, _opDer, _ambito){
     return{
         valor: respuesta+'\nError semántico: no se puede realizar la operacion división... Linea: '+_opIzq.linea+" Columna: "+_opIzq.columna,
         tipo: null,
+        mensaje: mensaje,
         linea: _opIzq.linea,
         columna: _opIzq.columna
     }
@@ -238,12 +270,16 @@ function exp(_opIzq, _opDer, _ambito){
     const opIzq = Aritmetica(_opIzq,_ambito)
     const opDer = Aritmetica(_opDer,_ambito)
     const tipoRes = TipoResultado(opIzq.tipo, opDer.tipo)
+    var mensaje = ""
+    mensaje += opIzq.mensaje
+    mensaje += opDer.mensaje
     if(tipoRes!=null){
         if(tipoRes === TIPO_DATO.DECIMAL || tipoRes === TIPO_DATO.DOUBLE){
             const resultado = Math.pow(Number(opIzq.valor), Number(opDer.valor))
             return{
                 valor: resultado,
                 tipo: tipoRes,
+                mensaje: mensaje,
                 linea: _opIzq.linea,
                 columna: _opIzq.columna
             }
@@ -253,6 +289,7 @@ function exp(_opIzq, _opDer, _ambito){
     return{
         valor: respuesta+'\nError semántico: no se puede realizar la operacion exponente... Linea: '+_opIzq.linea+" Columna: "+_opIzq.columna,
         tipo: null,
+        mensaje: mensaje,
         linea: _opIzq.linea,
         columna: _opIzq.columna
     }
@@ -262,12 +299,16 @@ function mod(_opIzq, _opDer, _ambito){
     const opIzq = Aritmetica(_opIzq,_ambito)
     const opDer = Aritmetica(_opDer,_ambito)
     const tipoRes = TipoResultado(opIzq.tipo, opDer.tipo)
+    var mensaje = ""
+    mensaje += opIzq.mensaje
+    mensaje += opDer.mensaje
     if(tipoRes!=null){
         if(tipoRes === TIPO_DATO.DECIMAL || tipoRes === TIPO_DATO.DOUBLE){
             const resultado = Number(opIzq.valor) % Number(opDer.valor);
             return{
                 valor: resultado,
                 tipo: TIPO_DATO.DOUBLE,
+                mensaje: mensaje,
                 linea: _opIzq.linea,
                 columna: _opIzq.columna
             }
@@ -277,6 +318,7 @@ function mod(_opIzq, _opDer, _ambito){
     return{
         valor: respuesta+'\nError semántico: no se puede realizar la operacion modulo... Linea: '+_opIzq.linea+" Columna: "+_opIzq.columna,
         tipo: null,
+        mensaje: mensaje,
         linea: _opIzq.linea,
         columna: _opIzq.columna
     }
@@ -286,12 +328,16 @@ function men(_opIzq, _opDer, _ambito){
     const opIzq = Aritmetica(_opIzq,_ambito)
     const opDer = Aritmetica(_opDer,_ambito)
     const tipoRes = TipoResultado(opIzq.tipo, opDer.tipo)
+    var mensaje = ""
+    mensaje += opIzq.mensaje
+    //mensaje += opDer.mensaje
     if(tipoRes!=null){
         if(tipoRes === TIPO_DATO.DECIMAL || tipoRes === TIPO_DATO.DOUBLE){
             const resultado = -(Number(opIzq.valor));
             return{
                 valor: resultado,
                 tipo: tipoRes,
+                mensaje: mensaje,
                 linea: _opIzq.linea,
                 columna: _opIzq.columna
             }
@@ -301,6 +347,7 @@ function men(_opIzq, _opDer, _ambito){
     return{
         valor: respuesta+'\nError semántico: no se puede realizar la operacion negación... Linea: '+_opIzq.linea+" Columna: "+_opIzq.columna,
         tipo: null,
+        mensaje: mensaje,
         linea: _opIzq.linea,
         columna: _opIzq.columna
     }
@@ -310,12 +357,16 @@ function masmas(_opIzq, _opDer, _ambito){
     const opIzq = Aritmetica(_opIzq,_ambito)
     const opDer = Aritmetica(_opDer,_ambito)
     const tipoRes = TipoResultado(opIzq.tipo, opDer.tipo)
+    var mensaje = ""
+    mensaje += opIzq.mensaje
+    //mensaje += opDer.mensaje
     if(tipoRes!=null){
         if(tipoRes === TIPO_DATO.DECIMAL || tipoRes === TIPO_DATO.DOUBLE){
             const resultado = (Number(opIzq.valor)) + 1;
             return{
                 valor: resultado,
                 tipo: tipoRes,
+                mensaje: mensaje,
                 linea: _opIzq.linea,
                 columna: _opIzq.columna
             }
@@ -325,6 +376,7 @@ function masmas(_opIzq, _opDer, _ambito){
     return{
         valor: respuesta+'\nError semántico: no se puede realizar la operacion iterativa "++"... Linea: '+_opIzq.linea+" Columna: "+_opIzq.columna,
         tipo: null,
+        mensaje: mensaje,
         linea: _opIzq.linea,
         columna: _opIzq.columna
     }
@@ -334,12 +386,16 @@ function menosmenos(_opIzq, _opDer, _ambito){
     const opIzq = Aritmetica(_opIzq,_ambito)
     const opDer = Aritmetica(_opDer,_ambito)
     const tipoRes = TipoResultado(opIzq.tipo, opDer.tipo)
+    var mensaje = ""
+    mensaje += opIzq.mensaje
+    //mensaje += opDer.mensaje
     if(tipoRes!=null){
         if(tipoRes === TIPO_DATO.DECIMAL || tipoRes === TIPO_DATO.DOUBLE){
             const resultado = (Number(opIzq.valor)) - 1;
             return{
                 valor: resultado,
                 tipo: tipoRes,
+                mensaje: mensaje,
                 linea: _opIzq.linea,
                 columna: _opIzq.columna
             }
@@ -349,6 +405,7 @@ function menosmenos(_opIzq, _opDer, _ambito){
     return{
         valor: respuesta+'\nError semántico: no se puede realizar la operacion iterativa "--"... Linea: '+_opIzq.linea+" Columna: "+_opIzq.columna,
         tipo: null,
+        mensaje: mensaje,
         linea: _opIzq.linea,
         columna: _opIzq.columna
     }

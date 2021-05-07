@@ -50,6 +50,9 @@ function Relacional(_expresion, _ambito){
 function igualigual(_opIzq, _opDer, _ambito){
     const opIzq = Relacional(_opIzq, _ambito)
     const opDer = Relacional(_opDer, _ambito)
+    var mensaje = ""
+    mensaje += opIzq.mensaje
+    mensaje += opDer.mensaje
     if(opIzq.tipo == opDer.tipo){ //1==1 true==false ...
         var resultado = false
         if(opIzq.valor == opDer.valor){
@@ -58,6 +61,7 @@ function igualigual(_opIzq, _opDer, _ambito){
         return {
             valor: resultado,
             tipo: TIPO_DATO.BANDERA,
+            mensaje: mensaje,
             linea: _opIzq.linea,
             columna: _opIzq.columna
         }
@@ -73,6 +77,7 @@ function igualigual(_opIzq, _opDer, _ambito){
     return{
         valor: respuesta+ `\nError semántico: no se puede comparar el valor de tipo ${opIzq.tipo} \ncon el valor de tipo ${opDer.tipo}... Linea: +${_opIzq.linea}+" Columna: "+${_opIzq.columna}`,
         tipo: null,
+        mensaje: mensaje,
         linea: _opIzq.linea,
         columna: _opIzq.columna
     }
@@ -80,6 +85,9 @@ function igualigual(_opIzq, _opDer, _ambito){
 function diferente(_opIzq, _opDer, _ambito){
     const opIzq = Relacional(_opIzq, _ambito)
     const opDer = Relacional(_opDer, _ambito)
+    var mensaje = ""
+    mensaje += opIzq.mensaje
+    mensaje += opDer.mensaje
     if(opIzq.tipo == opDer.tipo){ //1==1 true==false ...
         var resultado = false
         if(opIzq.valor != opDer.valor){
@@ -88,6 +96,7 @@ function diferente(_opIzq, _opDer, _ambito){
         return {
             valor: resultado,
             tipo: TIPO_DATO.BANDERA,
+            mensaje: mensaje,
             linea: _opIzq.linea,
             columna: _opIzq.columna
         }
@@ -103,6 +112,7 @@ function diferente(_opIzq, _opDer, _ambito){
     return{
         valor: respuesta+ `\nError semántico: no se puede comparar el valor de tipo ${opIzq.tipo} \ncon el valor de tipo ${opDer.tipo}... Linea: +${_opIzq.linea}+" Columna: "+${_opIzq.columna}`,
         tipo: null,
+        mensaje: mensaje,
         linea: _opIzq.linea,
         columna: _opIzq.columna
     }
@@ -111,6 +121,9 @@ function menor(_opIzq, _opDer, _ambito){
     const opIzq = Relacional(_opIzq, _ambito)
     const opDer = Relacional(_opDer, _ambito)
     const tipoRes = TipoResultado(opIzq.tipo, opDer.tipo)
+    var mensaje = ""
+    mensaje += opIzq.mensaje
+    mensaje += opDer.mensaje
     if((tipoRes === TIPO_DATO.DECIMAL || tipoRes === TIPO_DATO.DOUBLE)||
     (opIzq.tipo === TIPO_DATO.CARACTER && opDer.tipo === TIPO_DATO.CARACTER)){ //1==1 true==false ...
         var resultado = false
@@ -132,6 +145,7 @@ function menor(_opIzq, _opDer, _ambito){
         return {
             valor: resultado,
             tipo: TIPO_DATO.BANDERA,
+            mensaje: mensaje,
             linea: _opIzq.linea,
             columna: _opIzq.columna
         }
@@ -140,6 +154,7 @@ function menor(_opIzq, _opDer, _ambito){
     return{
         valor: respuesta+ `\nError semántico: no se puede comparar el valor de tipo ${opIzq.tipo} \ncon el valor de tipo ${opDer.tipo}... Linea: +${_opIzq.linea}+" Columna: "+${_opIzq.columna}`,
         tipo: null,
+        mensaje: mensaje,
         linea: _opIzq.linea,
         columna: _opIzq.columna
     }
@@ -148,6 +163,9 @@ function menorigual(_opIzq, _opDer, _ambito){
     const opIzq = Relacional(_opIzq, _ambito)
     const opDer = Relacional(_opDer, _ambito)
     const tipoRes = TipoResultado(opIzq.tipo, opDer.tipo)
+    var mensaje = ""
+    mensaje += opIzq.mensaje
+    mensaje += opDer.mensaje
     if((tipoRes === TIPO_DATO.DECIMAL || tipoRes === TIPO_DATO.DOUBLE)||
     (opIzq.tipo === TIPO_DATO.CARACTER && opDer.tipo === TIPO_DATO.CARACTER)){ //1==1 true==false ...
         var resultado = false
@@ -169,6 +187,7 @@ function menorigual(_opIzq, _opDer, _ambito){
         return {
             valor: resultado,
             tipo: TIPO_DATO.BANDERA,
+            mensaje: mensaje,
             linea: _opIzq.linea,
             columna: _opIzq.columna
         }
@@ -177,6 +196,7 @@ function menorigual(_opIzq, _opDer, _ambito){
     return{
         valor: respuesta+ `\nError semántico: no se puede comparar el valor de tipo ${opIzq.tipo} \ncon el valor de tipo ${opDer.tipo}... Linea: +${_opIzq.linea}+" Columna: "+${_opIzq.columna}`,
         tipo: null,
+        mensaje: mensaje,
         linea: _opIzq.linea,
         columna: _opIzq.columna
     }
@@ -185,6 +205,9 @@ function mayor(_opIzq, _opDer, _ambito){
     const opIzq = Relacional(_opIzq, _ambito)
     const opDer = Relacional(_opDer, _ambito)
     const tipoRes = TipoResultado(opIzq.tipo, opDer.tipo)
+    var mensaje = ""
+    mensaje += opIzq.mensaje
+    mensaje += opDer.mensaje
     if((tipoRes === TIPO_DATO.DECIMAL || tipoRes === TIPO_DATO.DOUBLE)||
     (opIzq.tipo === TIPO_DATO.CARACTER && opDer.tipo === TIPO_DATO.CARACTER)){ //1==1 true==false ...
         var resultado = false
@@ -206,6 +229,7 @@ function mayor(_opIzq, _opDer, _ambito){
         return {
             valor: resultado,
             tipo: TIPO_DATO.BANDERA,
+            mensaje: mensaje,
             linea: _opIzq.linea,
             columna: _opIzq.columna
         }
@@ -214,6 +238,7 @@ function mayor(_opIzq, _opDer, _ambito){
     return{
         valor: respuesta+ `\nError semántico: no se puede comparar el valor de tipo ${opIzq.tipo} \ncon el valor de tipo ${opDer.tipo}... Linea: +${_opIzq.linea}+" Columna: "+${_opIzq.columna}`,
         tipo: null,
+        mensaje: mensaje,
         linea: _opIzq.linea,
         columna: _opIzq.columna
     }
@@ -222,6 +247,9 @@ function mayorigual(_opIzq, _opDer, _ambito){
     const opIzq = Relacional(_opIzq, _ambito)
     const opDer = Relacional(_opDer, _ambito)
     const tipoRes = TipoResultado(opIzq.tipo, opDer.tipo)
+    var mensaje = ""
+    mensaje += opIzq.mensaje
+    mensaje += opDer.mensaje
     if((tipoRes === TIPO_DATO.DECIMAL || tipoRes === TIPO_DATO.DOUBLE)||
     (opIzq.tipo === TIPO_DATO.CARACTER && opDer.tipo === TIPO_DATO.CARACTER)){ //1==1 true==false ...
         var resultado = false
@@ -243,6 +271,7 @@ function mayorigual(_opIzq, _opDer, _ambito){
         return {
             valor: resultado,
             tipo: TIPO_DATO.BANDERA,
+            mensaje: mensaje,
             linea: _opIzq.linea,
             columna: _opIzq.columna
         }
@@ -251,6 +280,7 @@ function mayorigual(_opIzq, _opDer, _ambito){
     return{
         valor: respuesta+ `\nError semántico: no se puede comparar el valor de tipo ${opIzq.tipo} \ncon el valor de tipo ${opDer.tipo}... Linea: +${_opIzq.linea}+" Columna: "+${_opIzq.columna}`,
         tipo: null,
+        mensaje: mensaje,
         linea: _opIzq.linea,
         columna: _opIzq.columna
     }

@@ -14,7 +14,13 @@ function Bloque(_instrucciones, _ambito){
     var existeBreak = false;
     var existeContinue = false;
     var existeReturn = false;
-    var valor = null
+    var valor = {
+        valor: null,
+        tipo: null,
+        mensaje: "",
+        linea: _instrucciones.linea,
+        columna: _instrucciones.columna
+    }
     _instrucciones.forEach(instruccion => {
         if(existeBreak || existeContinue || existeReturn){
             return {
@@ -31,13 +37,13 @@ function Bloque(_instrucciones, _ambito){
         else if(instruccion.tipo === TIPO_INSTRUCCION.DECLARACION){
             var mensaje = Declaracion(instruccion, _ambito)
             if(mensaje!=null){
-                cadena+=mensaje+'\n'
+                cadena+=mensaje
             }
         }
         else if(instruccion.tipo === TIPO_INSTRUCCION.ASIGNACION){
             var mensaje = Asignacion(instruccion, _ambito)
             if(mensaje!=null){
-                cadena+=mensaje+'\n'
+                cadena+=mensaje
             }
         }
         else if(instruccion.tipo === TIPO_INSTRUCCION.WHILE){

@@ -39,6 +39,7 @@ function Castear(_expresion, _ambito){
 function casteo(_op, _tipo, _ambito){
     const Operacion = require("./Operacion")
     const op = Operacion(_op, _ambito)
+    var mensaje = op.mensaje
     //console.log(op)
     //console.log(_tipo)
     if (op.tipo === TIPO_DATO.DECIMAL && _tipo === TIPO_DATO.DOUBLE){
@@ -46,6 +47,7 @@ function casteo(_op, _tipo, _ambito){
         return{
             valor: resultado,
             tipo: TIPO_DATO.DOUBLE,
+            mensaje: mensaje,
             linea: _op.linea,
             columna: _op.columna
         }
@@ -55,6 +57,7 @@ function casteo(_op, _tipo, _ambito){
         return{
             valor: resultado.toFixed(),
             tipo: TIPO_DATO.DECIMAL,
+            mensaje: mensaje,
             linea: _op.linea,
             columna: _op.columna
         }
@@ -64,6 +67,7 @@ function casteo(_op, _tipo, _ambito){
         return{
             valor: resultado.toString(),
             tipo: TIPO_DATO.CADENA,
+            mensaje: mensaje,
             linea: _op.linea,
             columna: _op.columna
         }
@@ -73,6 +77,7 @@ function casteo(_op, _tipo, _ambito){
         return{
             valor: String.fromCharCode(resultado),
             tipo: TIPO_DATO.CARACTER,
+            mensaje: mensaje,
             linea: _op.linea,
             columna: _op.columna
         }
@@ -82,6 +87,7 @@ function casteo(_op, _tipo, _ambito){
         return{
             valor: resultado.toString(),
             tipo: TIPO_DATO.CADENA,
+            mensaje: mensaje,
             linea: _op.linea,
             columna: _op.columna
         }
@@ -91,6 +97,7 @@ function casteo(_op, _tipo, _ambito){
         return{
             valor: resultado.charCodeAt(),
             tipo: TIPO_DATO.DECIMAL,
+            mensaje: mensaje,
             linea: _op.linea,
             columna: _op.columna
         }
@@ -100,6 +107,7 @@ function casteo(_op, _tipo, _ambito){
         return{
             valor: resultado.charCodeAt(),
             tipo: TIPO_DATO.DOUBLE,
+            mensaje: mensaje,
             linea: _op.linea,
             columna: _op.columna
         }
@@ -108,6 +116,7 @@ function casteo(_op, _tipo, _ambito){
     return{
         valor: respuesta+'\nError semántico: no se puede realizar el casteo.. Linea: '+_op.linea+" Columna: "+_op.columna,
         tipo: null,
+        mensaje: mensaje,
         linea: _op.linea,
         columna: _op.columna
     }

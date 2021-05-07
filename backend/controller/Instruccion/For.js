@@ -22,6 +22,7 @@ function CicloFor(_instruccion, _ambito){
     //console.log(_instruccion.actualizacion)
     //console.log(nuevoAmbito)
     var condicion = Operacion(_instruccion.condicion, nuevoAmbito)
+    mensaje += operacion.mensaje
     //console.log(condicion)
     if(condicion.tipo === TIPO_DATO.BANDERA){
         while(condicion.valor){
@@ -35,6 +36,7 @@ function CicloFor(_instruccion, _ambito){
             //actualizamos
             actualizacion = Asignacion(_instruccion.actualizacion, nuevoAmbito)
             condicion = Operacion(_instruccion.condicion, nuevoAmbito)
+            mensaje += operacion.mensaje
         }
         return mensaje
     }

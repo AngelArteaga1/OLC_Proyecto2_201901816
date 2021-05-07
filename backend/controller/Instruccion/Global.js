@@ -26,25 +26,25 @@ function Global(_instrucciones, _ambito) {
         if (_instrucciones[i].tipo === TIPO_INSTRUCCION.DECLARACION) {
             var mensaje = Declaracion(_instrucciones[i], _ambito)
             if (mensaje != null) {
-                cadena += mensaje + '\n'
+                cadena += mensaje
             }
         }
         else if (_instrucciones[i].tipo === TIPO_INSTRUCCION.ASIGNACION) {
             var mensaje = Asignacion(_instrucciones[i], _ambito)
             if (mensaje != null) {
-                cadena += mensaje + '\n'
+                cadena += mensaje
             }
         }
         else if (_instrucciones[i].tipo === TIPO_INSTRUCCION.DEC_METODO) {
             var mensaje = DecMetodo(_instrucciones[i], _ambito)
             if (mensaje != null) {
-                cadena += mensaje + '\n'
+                cadena += mensaje
             }
         }
         else if (_instrucciones[i].tipo === TIPO_INSTRUCCION.DEC_FUNCION) {
             var mensaje = DecFuncion(_instrucciones[i], _ambito)
             if (mensaje != null) {
-                cadena += mensaje + '\n'
+                cadena += mensaje
             }
         }
     }
