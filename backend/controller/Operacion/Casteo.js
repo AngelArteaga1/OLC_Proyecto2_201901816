@@ -1,3 +1,4 @@
+const ListaErrores = require("../Enums/ListaErrores")
 const TIPO_DATO = require("../Enums/TipoDato")
 const TIPO_OPERACION = require("../Enums/TipoOperacion")
 const TIPO_VALOR = require("../Enums/TipoValor")
@@ -113,6 +114,13 @@ function casteo(_op, _tipo, _ambito){
         }
     }
     var respuesta = (_op.tipo===null ? op.valor: "")+(_tipo.tipo===null ? _tipo.valor: "") //true+5+10+5
+    var err = {
+        TipoError: "Semántico",
+        Descripcion: 'No se puede realizar la operacion casteo',
+        Linea: _op.linea,
+        Columna: _op.columna
+    }
+    ListaErrores.push(err)
     return{
         valor: respuesta+'\nError semántico: no se puede realizar el casteo.. Linea: '+_op.linea+" Columna: "+_op.columna,
         tipo: null,

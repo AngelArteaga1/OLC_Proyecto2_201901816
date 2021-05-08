@@ -1,7 +1,8 @@
 const Simbolo = require("../Ambito/Simbolo");
 const TIPO_DATO = require("../Enums/TipoDato");
 const Operacion = require("../Operacion/Operacion");
-const ListaSimbolos = require("../Enums/ListaSimbolos")
+const ListaSimbolos = require("../Enums/ListaSimbolos");
+const ListaErrores = require("../Enums/ListaErrores");
 
 function DecParametro(_instruccion, _ambito){
     var cadena = ""
@@ -15,10 +16,24 @@ function DecParametro(_instruccion, _ambito){
                 valor = op.valor;
             }
             else {
+                var err = {
+                    TipoError: "Semántico",
+                    Descripcion: "No es posible asignar un valor de tipo "+tipo+" a la variable '"+ _instruccion.id +"' que es de tipo "+TIPO_DATO.DECIMAL,
+                    Linea: _instruccion.linea,
+                    Columna: _instruccion.columna
+                }
+                ListaErrores.push(err)
                 return "Error: No es posible asignar un valor de tipo "+tipo+" a la variable \n'"+ _instruccion.id +"' que es de tipo "+TIPO_DATO.DECIMAL+"... Linea: "+_instruccion.linea+" Columna: "+ _instruccion.columna;
             }
         }
         const nuevoSimbolo = new Simbolo(_instruccion.id, valor, TIPO_DATO.DECIMAL, _instruccion.linea, _instruccion.columna)
+        var err = {
+            TipoError: "Semántico",
+            Descripcion: "La variable '"+ nuevoSimbolo.id +"' ya existe",
+            Linea: _instruccion.linea,
+            Columna: _instruccion.columna
+        }
+        ListaErrores.push(err)
         if(_ambito.existeSimboloAmbitoActual(nuevoSimbolo.id)!=false){
             return "Error: La variable '"+ nuevoSimbolo.id +"' ya existe... Linea: "+nuevoSimbolo.linea+" Columna: "+ nuevoSimbolo.columna;
         }
@@ -36,11 +51,25 @@ function DecParametro(_instruccion, _ambito){
                 valor = op.valor;
             }
             else {
+                var err = {
+                    TipoError: "Semántico",
+                    Descripcion: "No es posible asignar un valor de tipo "+tipo+" a la variable '"+ _instruccion.id +"' que es de tipo "+TIPO_DATO.DOUBLE,
+                    Linea: _instruccion.linea,
+                    Columna: _instruccion.columna
+                }
+                ListaErrores.push(err)
                 "Error: No es posible asignar un valor de tipo "+tipo+" a la variable \n'"+ _instruccion.id +"' que es de tipo "+TIPO_DATO.DOUBLE+"... Linea: "+_instruccion.linea+" Columna: "+ _instruccion.columna;
             }
         }
         const nuevoSimbolo = new Simbolo(_instruccion.id, valor, TIPO_DATO.DOUBLE, _instruccion.linea, _instruccion.columna)
         if(_ambito.existeSimboloAmbitoActual(nuevoSimbolo.id)!=false){
+            var err = {
+                TipoError: "Semántico",
+                Descripcion: "La variable '"+ nuevoSimbolo.id +"' ya existe",
+                Linea: _instruccion.linea,
+                Columna: _instruccion.columna
+            }
+            ListaErrores.push(err)
             return "Error: La variable '"+ nuevoSimbolo.id +"' ya existe... Linea: "+nuevoSimbolo.linea+" Columna: "+ nuevoSimbolo.columna;
         }
         _ambito.addSimbolo(nuevoSimbolo.id, nuevoSimbolo)
@@ -57,12 +86,26 @@ function DecParametro(_instruccion, _ambito){
             if(tipo === TIPO_DATO.CADENA){
                 valor = String(op.valor) //casteamos a cadena
             } else {
+                var err = {
+                    TipoError: "Semántico",
+                    Descripcion: "No es posible asignar un valor de tipo "+tipo+" a la variable '"+ _instruccion.id +"' que es de tipo "+TIPO_DATO.CADENA,
+                    Linea: _instruccion.linea,
+                    Columna: _instruccion.columna
+                }
+                ListaErrores.push(err)
                 return "Error: No es posible asignar un valor de tipo "+tipo+" a la variable \n'"+ _instruccion.id +"' que es de tipo "+TIPO_DATO.CADENA+"... Linea: "+_instruccion.linea+" Columna: "+ _instruccion.columna;
             }
         }
         //verificamos si ya existe
         const nuevoSimbolo = new Simbolo(_instruccion.id, valor, TIPO_DATO.CADENA, _instruccion.linea, _instruccion.columna)
         if(_ambito.existeSimboloAmbitoActual(nuevoSimbolo.id)!=false){
+            var err = {
+                TipoError: "Semántico",
+                Descripcion: "La variable '"+ nuevoSimbolo.id +"' ya existe",
+                Linea: _instruccion.linea,
+                Columna: _instruccion.columna
+            }
+            ListaErrores.push(err)
             return "Error: La variable '"+ nuevoSimbolo.id +"' ya existe... Linea: "+nuevoSimbolo.linea+" Columna: "+ nuevoSimbolo.columna;
         }
         _ambito.addSimbolo(nuevoSimbolo.id, nuevoSimbolo)
@@ -79,6 +122,13 @@ function DecParametro(_instruccion, _ambito){
             if (tipo===TIPO_DATO.CARACTER){
                 valor = String(op.valor) //casteamos a cadena
             } else {
+                var err = {
+                    TipoError: "Semántico",
+                    Descripcion: "No es posible asignar un valor de tipo "+tipo+" a la variable '"+ _instruccion.id +"' que es de tipo "+TIPO_DATO.CARACTER,
+                    Linea: _instruccion.linea,
+                    Columna: _instruccion.columna
+                }
+                ListaErrores.push(err)
                 return "Error: No es posible asignar un valor de tipo "+tipo+" a la variable \n'"+ _instruccion.id +"' que es de tipo "+TIPO_DATO.CARACTER+"... Linea: "+_instruccion.linea+" Columna: "+ _instruccion.columna;
             }
             
@@ -86,6 +136,13 @@ function DecParametro(_instruccion, _ambito){
         //verificamos si ya existe
         const nuevoSimbolo = new Simbolo(_instruccion.id, valor, TIPO_DATO.CARACTER, _instruccion.linea, _instruccion.columna)
         if(_ambito.existeSimboloAmbitoActual(nuevoSimbolo.id)!=false){
+            var err = {
+                TipoError: "Semántico",
+                Descripcion: "La variable '"+ nuevoSimbolo.id +"' ya existe",
+                Linea: _instruccion.linea,
+                Columna: _instruccion.columna
+            }
+            ListaErrores.push(err)
             return "Error: La variable '"+ nuevoSimbolo.id +"' ya existe... Linea: "+nuevoSimbolo.linea+" Columna: "+ nuevoSimbolo.columna;
         }
         _ambito.addSimbolo(nuevoSimbolo.id, nuevoSimbolo)
@@ -104,12 +161,26 @@ function DecParametro(_instruccion, _ambito){
                 valor = Boolean(op.valor)
             }
             else{
+                var err = {
+                    TipoError: "Semántico",
+                    Descripcion: "No es posible asignar un valor de tipo "+tipo+" a la variable '"+ _instruccion.id +"' que es de tipo "+TIPO_DATO.BANDERA,
+                    Linea: _instruccion.linea,
+                    Columna: _instruccion.columna
+                }
+                ListaErrores.push(err)
                 return "Error: No es posible asignar un valor de tipo "+tipo+" a la variable \n'"+ _instruccion.id +"' que es de tipo "+TIPO_DATO.BANDERA+"... Linea: "+_instruccion.linea+" Columna: "+ _instruccion.columna;
             }
         }
         //verificamos si ya existe
         const nuevoSimbolo = new Simbolo(_instruccion.id, valor, TIPO_DATO.BANDERA, _instruccion.linea, _instruccion.columna)
         if(_ambito.existeSimboloAmbitoActual(nuevoSimbolo.id)!=false){
+            var err = {
+                TipoError: "Semántico",
+                Descripcion: "La variable '"+ nuevoSimbolo.id +"' ya existe",
+                Linea: _instruccion.linea,
+                Columna: _instruccion.columna
+            }
+            ListaErrores.push(err)
             return "Error: La variable '"+ nuevoSimbolo.id +"' ya existe... Linea: "+nuevoSimbolo.linea+" Columna: "+ nuevoSimbolo.columna;
         }
         _ambito.addSimbolo(nuevoSimbolo.id, nuevoSimbolo)

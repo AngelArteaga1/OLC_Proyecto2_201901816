@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Simbolo } from '../../modules/simbolo';
+import { Error } from '../../modules/Error/error';
 import { Observable } from 'rxjs';
 //importamos para el editor
 import { filter, take } from 'rxjs/operators';
@@ -37,6 +38,7 @@ export class EditorComponent implements OnInit {
 
   code = "";
   listaSimbolos: Simbolo[];
+  listaErrores: Error[];
   editorTexto = new FormControl('');
   console = "";
   consola = new FormControl('');
@@ -68,6 +70,7 @@ export class EditorComponent implements OnInit {
         });
       });
       this.listaSimbolos = []
+      this.listaErrores = []
   }
   editorInit(editor: MonacoStandaloneCodeEditor) {
     // monaco.editor.setTheme('vs');
@@ -98,6 +101,7 @@ export class EditorComponent implements OnInit {
       console.log(res)
       this.consola.setValue(res.consola);
       this.listaSimbolos = res.tablaSimbolos;
+      this.listaErrores = res.tablaErrores;
       console.log(res.tablaSimbolos);
     }, err=>{
       this.consola.setValue("ERROR");

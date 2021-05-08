@@ -5,6 +5,7 @@ const Declaracion = require("./Declaracion")
 const DecMetodo = require("./DecMetodo")
 const Exec = require("./Exec")
 const ListaSimbolos = require("../Enums/ListaSimbolos")
+const ListaErrores = require("../Enums/ListaErrores")
 
 function Global(_instrucciones, _ambito) {
     var cadena = ""
@@ -16,10 +17,24 @@ function Global(_instrucciones, _ambito) {
         }
     }
     if (contadorExec == 0) {
-        return `Error: No se ha encontrado un Exec() para ser ejecutado`
+        var err = {
+            TipoError: "Semántico",
+            Descripcion: `No se ha encontrado un Exec() para ser ejecutado`,
+            Linea: 0,
+            Columna: 0
+        }
+        ListaErrores.push(err)
+        return `Error: No se ha encontrado un Exec() para ser ejecutado\n`
     }
     if (contadorExec > 1) {
-        return `Error: Se han encontrado mas de un Exec() para ejecutar`
+        var err = {
+            TipoError: "Semántico",
+            Descripcion: `Se han encontrado mas de un Exec() para ejecutar`,
+            Linea: 0,
+            Columna: 0
+        }
+        ListaErrores.push(err)
+        return `Error: Se han encontrado mas de un Exec() para ejecutar\n`
     }
     //SEGUNDA PASADA, DECLARAR VARIABLES, METODOS Y ASIGNACIONES
     for (let i = 0; i < _instrucciones.length; i++) {

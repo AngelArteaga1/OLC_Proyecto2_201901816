@@ -77,7 +77,9 @@
   <br>
   <br>
 
-    <table *ngIf="showSimbolos" class="table table-hover table-dark col-md-12">
+  <div *ngIf="showSimbolos">
+    <div class="card-header fonti text-white">Tabla de Simbolos</div>
+    <table class="table table-hover table-dark col-md-12">
       <thead>
         <tr>
           <th scope="col">#</th>
@@ -101,8 +103,11 @@
         </tr>
       </tbody>
     </table>
+  </div>
 
-    <table *ngIf="showErrores" class="table table-hover table-dark col-md-12">
+  <div *ngIf="showErrores">
+    <div class="card-header fonti text-white">Tabla de Errores</div>
+    <table class="table table-hover table-dark col-md-12">
       <thead>
         <tr>
           <th scope="col">#</th>
@@ -113,14 +118,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let simbolo of listaSimbolos">
-          <th scope="row">1</th>
-          <td>{{simbolo.Identificador}}</td>
-          <td>{{simbolo.TipoVar}}</td>
-          <th scope="row">{{simbolo.Linea}}</th>
-          <th scope="row">{{simbolo.Columna}}</th>
+        <tr *ngFor="let error of listaErrores; index as i">
+          <th scope="row">{{i}}</th>
+          <td>{{error.TipoError}}</td>
+          <td>{{error.Descripcion}}</td>
+          <th scope="row">{{error.Linea}}</th>
+          <th scope="row">{{error.Columna}}</th>
         </tr>
       </tbody>
     </table>
+  </div>
 
 </div>

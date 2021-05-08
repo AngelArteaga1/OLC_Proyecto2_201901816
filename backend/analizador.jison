@@ -78,12 +78,20 @@
 "E"                   return 'E'
 
 //VALORES DEL DATO
-([a-zA-Z])([a-zA-Z0-9_])* return 'identificador'
-["\""]([^"\""])*["\""]    return 'cadena'
+([a-zA-Z])([a-zA-Z0-9_])*  return 'identificador'
+["\""]([^"\""])*["\""]     return 'cadena'
 ["\'"]([^"\'"])*["\'"]     return 'caracter'
 
 <<EOF>>               return 'EOF'
-.                     return 'INVALID'
+.					{ 
+      var err = {
+            TipoError: "Léxico",
+            Descripcion: "El simbolo '" + yytext  + "' no se ha reconocido",
+            Linea: yylloc.first_line,
+            Columna: yylloc.first_column
+      }
+      ListaErrores.push(err)
+}
 
 /lex
 %{
@@ -126,6 +134,15 @@ CUERPO: DEC_VAR {$$=$1}
       | AS_VAR {$$=$1}
       | EXEC {$$=$1}
       | ITERACION {$$=$1}
+      | error ptcoma {
+            var err = {
+                  TipoError: "Sintactico",
+                  Descripcion: "No se esperaba: '" + yytext + "'",
+                  Linea: this._$.first_line,
+                  Columna: this._$.first_column+1
+            }
+            ListaErrores.push(err)
+      }
 ;
 
 EXEC: exec identificador parA parC ptcoma {$$ = INSTRUCCION.nuevoExec($2, null,this._$.first_line,this._$.first_column+1)}
@@ -238,6 +255,15 @@ CUERPOMETODO: DEC_VAR {$$=$1}
             | CONTINUE {$$=$1}
             | RETURN {$$=$1}
             | ITERACION {$$=$1}
+            | error ptcoma {
+                  var err = {
+                        TipoError: "Sintactico",
+                        Descripcion: "No se esperaba: '" + yytext + "'",
+                        Linea: this._$.first_line,
+                        Columna: this._$.first_column+1
+                  }
+                  ListaErrores.push(err)
+            }
 ;
 
 ITERACION: identificador sumasuma ptcoma {$$ = INSTRUCCION.nuevaAsignacion($1, (INSTRUCCION.nuevaOperacionBinaria(($$ = INSTRUCCION.nuevoValor($1, TIPO_VALOR.IDENTIFICADOR, this._$.first_line,this._$.first_column+1)),(INSTRUCCION.nuevoValor(Number(1), TIPO_VALOR.DECIMAL, this._$.first_line,this._$.first_column+1)), TIPO_OPERACION.SUMA,this._$.first_line,this._$.first_column+1)),this._$.first_line,this._$.first_column+1)}

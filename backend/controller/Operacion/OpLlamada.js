@@ -4,6 +4,7 @@ const ValorExpresion = require("./ValorExpresion")
 const Ambito = require("../Ambito/Ambito")
 const Instruccion = require("../Instruccion/Instruccion")
 const TIPO_DATO = require("../Enums/TipoDato")
+const ListaErrores = require("../Enums/ListaErrores")
 
 function OpLlamada(_expresion, _ambito) {
     if (_expresion.tipo === TIPO_VALOR.DECIMAL || _expresion.tipo === TIPO_VALOR.BANDERA ||
@@ -64,6 +65,13 @@ function OpLlamada(_expresion, _ambito) {
                 op.valor = op.valor.toLowerCase()
                 return op
             }
+            var err = {
+                TipoError: "Semántico",
+                Descripcion: 'No se puede realizar la funcion ToLower',
+                Linea: _linea,
+                Columna: _columna
+            }
+            ListaErrores.push(err)
             return{
                 tipo: null,
                 valor: 'Error semántico: No se puede realizar la funcion ToLower, Linea: '+_linea+" Columna: "+_columna + "\n",
@@ -79,6 +87,13 @@ function OpLlamada(_expresion, _ambito) {
                 op.valor = op.valor.toUpperCase()
                 return op
             }
+            var err = {
+                TipoError: "Semántico",
+                Descripcion: 'No se puede realizar la funcion ToUpper',
+                Linea: _linea,
+                Columna: _columna
+            }
+            ListaErrores.push(err)
             return{
                 tipo: null,
                 valor: 'Error semántico: No se puede realizar la funcion ToUpper, Linea: '+_linea+" Columna: "+_columna + "\n",
@@ -95,6 +110,13 @@ function OpLlamada(_expresion, _ambito) {
                 op.tipo = TIPO_DATO.DECIMAL
                 return op
             }
+            var err = {
+                TipoError: "Semántico",
+                Descripcion: 'No se puede realizar la funcion lenght',
+                Linea: _linea,
+                Columna: _columna
+            }
+            ListaErrores.push(err)
             return{
                 tipo: null,
                 valor: 'Error semántico: No se puede realizar la funcion length, Linea: '+_linea+" Columna: "+_columna + "\n",
@@ -111,6 +133,13 @@ function OpLlamada(_expresion, _ambito) {
                 op.tipo = TIPO_DATO.DECIMAL
                 return op
             }
+            var err = {
+                TipoError: "Semántico",
+                Descripcion: 'No se puede realizar la funcion truncate',
+                Linea: _linea,
+                Columna: _columna
+            }
+            ListaErrores.push(err)
             return{
                 tipo: null,
                 valor: 'Error semántico: No se puede realizar la funcion truncate, Linea: '+_linea+" Columna: "+_columna + "\n",
@@ -127,6 +156,13 @@ function OpLlamada(_expresion, _ambito) {
                 op.tipo = TIPO_DATO.DECIMAL
                 return op
             }
+            var err = {
+                TipoError: "Semántico",
+                Descripcion: 'No se puede realizar la funcion round',
+                Linea: _linea,
+                Columna: _columna
+            }
+            ListaErrores.push(err)
             return{
                 tipo: null,
                 valor: 'Error semántico: No se puede realizar la funcion round, Linea: '+_linea+" Columna: "+_columna + "\n",
@@ -164,6 +200,13 @@ function OpLlamada(_expresion, _ambito) {
                 op.tipo = TIPO_DATO.CADENA
                 return op
             }
+            var err = {
+                TipoError: "Semántico",
+                Descripcion: 'No se puede realizar la funcion ToString',
+                Linea: _linea,
+                Columna: _columna
+            }
+            ListaErrores.push(err)
             return{
                 tipo: null,
                 valor: 'Error semántico: No se puede realizar la funcion ToString, Linea: '+_linea+" Columna: "+_columna + "\n",
@@ -172,6 +215,13 @@ function OpLlamada(_expresion, _ambito) {
                 columna: _columna
             }
         }
+        var err = {
+            TipoError: "Semántico",
+            Descripcion: `Error: La función ${_nombre} no existe`,
+            Linea: _linea,
+            Columna: _columna
+        }
+        ListaErrores.push(err)
         return {
             tipo: null,
             valor: `Error: La función ${_nombre} no existe... Linea: ${_linea} Columna: ${_columna} \n`,

@@ -1,3 +1,4 @@
+const ListaErrores = require("../Enums/ListaErrores");
 const TIPO_DATO = require("../Enums/TipoDato");
 const TIPO_VALOR = require("../Enums/TipoValor");
 
@@ -58,6 +59,13 @@ function ValorExpresion(_expresion, _ambito){
                 columna: simbolo.columna
             }
         }
+        var err = {
+            TipoError: "Semántico",
+            Descripcion: "La variable '"+_expresion.valor+"' no existe",
+            Linea: _expresion.linea,
+            Columna: _expresion.columna
+        }
+        ListaErrores.push(err)
         return {
             valor: "Error: la variable '"+_expresion.valor+"' no existe... Linea: "+_expresion.linea+" Columna: "+_expresion.columna,
             tipo: null,

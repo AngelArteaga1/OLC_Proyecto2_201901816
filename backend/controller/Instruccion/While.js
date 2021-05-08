@@ -1,4 +1,5 @@
 const Ambito = require("../Ambito/Ambito")
+const ListaErrores = require("../Enums/ListaErrores")
 const TIPO_DATO = require("../Enums/TipoDato")
 const Operacion = require("../Operacion/Operacion")
 
@@ -36,8 +37,15 @@ function CicloWhile(_instruccion, _ambito){
             valor: valor
         }
     }
+    var err = {
+        TipoError: "Semántico",
+        Descripcion: `No es una expresion de tipo BANDERA en la condicion del While`,
+        Linea: _instruccion.linea,
+        Columna: _instruccion.columna
+    }
+    ListaErrores.push(err)
     return {
-        cadena: `Error: No es una expresion de tipo BANDERA en la condicion... Linea: ${_instruccion.linea} Columna: ${_instruccion.columna}`,
+        cadena: `Error: No es una expresion de tipo BANDERA en la condicion del While... Linea: ${_instruccion.linea} Columna: ${_instruccion.columna}\n`,
         valor: valor
     }
 }

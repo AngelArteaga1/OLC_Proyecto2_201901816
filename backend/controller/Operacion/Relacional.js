@@ -5,6 +5,7 @@ const Aritmetica = require("./Aritmetica");
 const ValorExpresion = require("./ValorExpresion");
 const TipoResultado = require("./TipoResultado");
 const OpLlamada = require("./OpLlamada");
+const ListaErrores = require("../Enums/ListaErrores");
 
 function Relacional(_expresion, _ambito){
     if(_expresion.tipo === TIPO_VALOR.DECIMAL || _expresion.tipo === TIPO_VALOR.BANDERA ||
@@ -74,6 +75,13 @@ function igualigual(_opIzq, _opDer, _ambito){
         }
     }*/
     var respuesta = (opIzq.tipo===null ? opIzq.valor: "")+(opDer.tipo===null ? opDer.valor: "") //true+5+10+5
+    var err = {
+        TipoError: "Semántico",
+        Descripcion: `No se puede comparar el valor de tipo ${opIzq.tipo} con el valor de tipo ${opDer.tipo}`,
+        Linea: _opIzq.linea,
+        Columna: _opIzq.columna
+    }
+    ListaErrores.push(err)
     return{
         valor: respuesta+ `\nError semántico: no se puede comparar el valor de tipo ${opIzq.tipo} \ncon el valor de tipo ${opDer.tipo}... Linea: +${_opIzq.linea}+" Columna: "+${_opIzq.columna}`,
         tipo: null,
@@ -109,6 +117,13 @@ function diferente(_opIzq, _opDer, _ambito){
         }
     }*/
     var respuesta = (opIzq.tipo===null ? opIzq.valor: "")+(opDer.tipo===null ? opDer.valor: "") //true+5+10+5
+    var err = {
+        TipoError: "Semántico",
+        Descripcion: `No se puede comparar el valor de tipo ${opIzq.tipo} con el valor de tipo ${opDer.tipo}`,
+        Linea: _opIzq.linea,
+        Columna: _opIzq.columna
+    }
+    ListaErrores.push(err)
     return{
         valor: respuesta+ `\nError semántico: no se puede comparar el valor de tipo ${opIzq.tipo} \ncon el valor de tipo ${opDer.tipo}... Linea: +${_opIzq.linea}+" Columna: "+${_opIzq.columna}`,
         tipo: null,
@@ -151,6 +166,13 @@ function menor(_opIzq, _opDer, _ambito){
         }
     }
     var respuesta = (opIzq.tipo===null ? opIzq.valor: "")+(opDer.tipo===null ? opDer.valor: "") //true+5+10+5
+    var err = {
+        TipoError: "Semántico",
+        Descripcion: `No se puede comparar el valor de tipo ${opIzq.tipo} con el valor de tipo ${opDer.tipo}`,
+        Linea: _opIzq.linea,
+        Columna: _opIzq.columna
+    }
+    ListaErrores.push(err)
     return{
         valor: respuesta+ `\nError semántico: no se puede comparar el valor de tipo ${opIzq.tipo} \ncon el valor de tipo ${opDer.tipo}... Linea: +${_opIzq.linea}+" Columna: "+${_opIzq.columna}`,
         tipo: null,
@@ -193,6 +215,13 @@ function menorigual(_opIzq, _opDer, _ambito){
         }
     }
     var respuesta = (opIzq.tipo===null ? opIzq.valor: "")+(opDer.tipo===null ? opDer.valor: "") //true+5+10+5
+    var err = {
+        TipoError: "Semántico",
+        Descripcion: `No se puede comparar el valor de tipo ${opIzq.tipo} con el valor de tipo ${opDer.tipo}`,
+        Linea: _opIzq.linea,
+        Columna: _opIzq.columna
+    }
+    ListaErrores.push(err)
     return{
         valor: respuesta+ `\nError semántico: no se puede comparar el valor de tipo ${opIzq.tipo} \ncon el valor de tipo ${opDer.tipo}... Linea: +${_opIzq.linea}+" Columna: "+${_opIzq.columna}`,
         tipo: null,
@@ -235,6 +264,13 @@ function mayor(_opIzq, _opDer, _ambito){
         }
     }
     var respuesta = (opIzq.tipo===null ? opIzq.valor: "")+(opDer.tipo===null ? opDer.valor: "") //true+5+10+5
+    var err = {
+        TipoError: "Semántico",
+        Descripcion: `No se puede comparar el valor de tipo ${opIzq.tipo} con el valor de tipo ${opDer.tipo}`,
+        Linea: _opIzq.linea,
+        Columna: _opIzq.columna
+    }
+    ListaErrores.push(err)
     return{
         valor: respuesta+ `\nError semántico: no se puede comparar el valor de tipo ${opIzq.tipo} \ncon el valor de tipo ${opDer.tipo}... Linea: +${_opIzq.linea}+" Columna: "+${_opIzq.columna}`,
         tipo: null,
@@ -277,6 +313,13 @@ function mayorigual(_opIzq, _opDer, _ambito){
         }
     }
     var respuesta = (opIzq.tipo===null ? opIzq.valor: "")+(opDer.tipo===null ? opDer.valor: "") //true+5+10+5
+    var err = {
+        TipoError: "Semántico",
+        Descripcion: `No se puede comparar el valor de tipo ${opIzq.tipo} con el valor de tipo ${opDer.tipo}`,
+        Linea: _opIzq.linea,
+        Columna: _opIzq.columna
+    }
+    ListaErrores.push(err)
     return{
         valor: respuesta+ `\nError semántico: no se puede comparar el valor de tipo ${opIzq.tipo} \ncon el valor de tipo ${opDer.tipo}... Linea: +${_opIzq.linea}+" Columna: "+${_opIzq.columna}`,
         tipo: null,

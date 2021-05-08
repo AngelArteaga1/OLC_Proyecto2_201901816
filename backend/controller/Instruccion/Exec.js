@@ -1,4 +1,5 @@
 const Ambito = require("../Ambito/Ambito");
+const ListaErrores = require("../Enums/ListaErrores");
 const Operacion = require("../Operacion/Operacion");
 const Bloque = require("./Bloque");
 const Declaracion = require("./Declaracion");
@@ -36,10 +37,24 @@ function Exec(_instruccion, _ambito) {
                 var exec = Bloque(metodoEjecutar.instrucciones, nuevoAmbito)
                 var mensaje = exec.cadena
                 if (exec.existeBreak) {
-                    mensaje += "Error: Se ha encontrado un break fuera de un ciclo"
+                    var err = {
+                        TipoError: "Semántico",
+                        Descripcion: `Se ha encontrado un break fuera de un ciclo`,
+                        Linea: _instruccion.linea,
+                        Columna: _instruccion.columna
+                    }
+                    ListaErrores.push(err)
+                    mensaje += "Error: Se ha encontrado un break fuera de un ciclo\n"
                 }
                 if (exec.existeContinue) {
-                    mensaje += "Error: Se ha encontrado un continue fuera de un ciclo"
+                    var err = {
+                        TipoError: "Semántico",
+                        Descripcion: `Se ha encontrado un continue fuera de un ciclo`,
+                        Linea: _instruccion.linea,
+                        Columna: _instruccion.columna
+                    }
+                    ListaErrores.push(err)
+                    mensaje += "Error: Se ha encontrado un continue fuera de un ciclo\n"
                 }
                 return mensaje
             }
@@ -47,14 +62,35 @@ function Exec(_instruccion, _ambito) {
         var exec = Bloque(metodoEjecutar.instrucciones, nuevoAmbito)
         var mensaje = exec.cadena
         if (exec.existeBreak) {
-            mensaje += "Error: Se ha encontrado un break fuera de un ciclo"
+            var err = {
+                TipoError: "Semántico",
+                Descripcion: `Se ha encontrado un break fuera de un ciclo`,
+                Linea: _instruccion.linea,
+                Columna: _instruccion.columna
+            }
+            ListaErrores.push(err)
+            mensaje += "Error: Se ha encontrado un break fuera de un ciclo\n"
         }
         if (exec.existeContinue) {
-            mensaje += "Error: Se ha encontrado un continue fuera de un ciclo"
+            var err = {
+                TipoError: "Semántico",
+                Descripcion: `Se ha encontrado un continue fuera de un ciclo`,
+                Linea: _instruccion.linea,
+                Columna: _instruccion.columna
+            }
+            ListaErrores.push(err)
+            mensaje += "Error: Se ha encontrado un continue fuera de un ciclo\n"
         }
         return mensaje
     }
-    return `Error: El método ${_instruccion.nombre} no existe... Linea: ${_instruccion.linea} Columna: ${_instruccion.columna}`
+    var err = {
+        TipoError: "Semántico",
+        Descripcion: `El método ${_instruccion.nombre} no existe`,
+        Linea: _instruccion.linea,
+        Columna: _instruccion.columna
+    }
+    ListaErrores.push(err)
+    return `Error: El método ${_instruccion.nombre} no existe... Linea: ${_instruccion.linea} Columna: ${_instruccion.columna}\n`
 }
 
 module.exports = Exec

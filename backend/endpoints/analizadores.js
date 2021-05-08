@@ -30,7 +30,8 @@ module.exports = (parser, app) => {
         var resultado = {
             arbol: ast,
             consola: cadena, //cadena
-            tablaSimbolos: ListaSimbolos
+            tablaSimbolos: ListaSimbolos,
+            tablaErrores: ListaErrores
         }
         //GENERAMOS EL ARCHIVO DOT
         fs.writeFile("./controller/ReporteAST/AST.dot", dot, function (error) {

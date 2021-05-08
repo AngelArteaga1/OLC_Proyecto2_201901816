@@ -1,4 +1,5 @@
 const Ambito = require("../Ambito/Ambito")
+const ListaErrores = require("../Enums/ListaErrores")
 const TIPO_DATO = require("../Enums/TipoDato")
 const Operacion = require("../Operacion/Operacion")
 
@@ -31,12 +32,19 @@ function sentenciaIf(_instruccion, _ambito){
             cadena: mensaje
         }
     }
+    var err = {
+        TipoError: "Semántico",
+        Descripcion: `No es una expresión válida para el If`,
+        Linea: _instruccion.linea,
+        Columna: _instruccion.columna
+    }
+    ListaErrores.push(err)
     return{
         existeBreak: existeBreak,
         existeContinue: existeContinue,
         existeReturn: existeReturn,
         valor: valor,
-        cadena: `Error: No es una expresión válida para el IF... Linea: ${_instruccion.linea} Columna: ${_instruccion.columna}`
+        cadena: `Error: No es una expresión válida para el IF... Linea: ${_instruccion.linea} Columna: ${_instruccion.columna}\n`
     }
 }
 

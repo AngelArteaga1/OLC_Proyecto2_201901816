@@ -1,3 +1,4 @@
+const ListaErrores = require("../Enums/ListaErrores")
 const TIPO_DATO = require("../Enums/TipoDato")
 const TIPO_OPERACION = require("../Enums/TipoOperacion")
 const TIPO_VALOR = require("../Enums/TipoValor")
@@ -110,6 +111,13 @@ function suma(_opIzq, _opDer, _ambito){
         }
     }
     var respuesta = (opIzq.tipo===null ? opIzq.valor: "")+(opDer.tipo===null ? opDer.valor: "") //true+5+10+5
+    var err = {
+        TipoError: "Semántico",
+        Descripcion: 'No se puede realizar la operacion suma',
+        Linea: _opIzq.linea,
+        Columna: _opIzq.columna
+    }
+    ListaErrores.push(err)
     return{
         valor: respuesta+'\nError semántico: no se puede realizar la operacion suma... Linea: '+_opIzq.linea+" Columna: "+_opIzq.columna,
         tipo: null,
@@ -157,6 +165,13 @@ function resta(_opIzq, _opDer, _ambito){
         }
     }
     var respuesta = (opIzq.tipo===null ? opIzq.valor: "")+(opDer.tipo===null ? opDer.valor: "") //true+5+10+5
+    var err = {
+        TipoError: "Semántico",
+        Descripcion: 'No se puede realizar la operacion resta',
+        Linea: _opIzq.linea,
+        Columna: _opIzq.columna
+    }
+    ListaErrores.push(err)
     return{
         valor: respuesta+'\nError semántico: no se puede realizar la operacion resta... Linea: '+_opIzq.linea+" Columna: "+_opIzq.columna,
         tipo: null,
@@ -206,6 +221,13 @@ function mult(_opIzq, _opDer, _ambito){
         }
     }
     var respuesta = (opIzq.tipo===null ? opIzq.valor: "")+(opDer.tipo===null ? opDer.valor: "") //true+5+10+5
+    var err = {
+        TipoError: "Semántico",
+        Descripcion: 'No se puede realizar la operacion multiplicación',
+        Linea: _opIzq.linea,
+        Columna: _opIzq.columna
+    }
+    ListaErrores.push(err)
     return{
         valor: respuesta+'\nError semántico: no se puede realizar la operacion multiplicación... Linea: '+_opIzq.linea+" Columna: "+_opIzq.columna,
         tipo: null,
@@ -257,6 +279,13 @@ function div(_opIzq, _opDer, _ambito){
         }
     }
     var respuesta = (opIzq.tipo===null ? opIzq.valor: "")+(opDer.tipo===null ? opDer.valor: "") //true+5+10+5
+    var err = {
+        TipoError: "Semántico",
+        Descripcion: 'No se puede realizar la operacion división',
+        Linea: _opIzq.linea,
+        Columna: _opIzq.columna
+    }
+    ListaErrores.push(err)
     return{
         valor: respuesta+'\nError semántico: no se puede realizar la operacion división... Linea: '+_opIzq.linea+" Columna: "+_opIzq.columna,
         tipo: null,
@@ -286,6 +315,13 @@ function exp(_opIzq, _opDer, _ambito){
         }
     }
     var respuesta = (opIzq.tipo===null ? opIzq.valor: "")+(opDer.tipo===null ? opDer.valor: "") //true+5+10+5
+    var err = {
+        TipoError: "Semántico",
+        Descripcion: 'No se puede realizar la operacion exponente',
+        Linea: _opIzq.linea,
+        Columna: _opIzq.columna
+    }
+    ListaErrores.push(err)
     return{
         valor: respuesta+'\nError semántico: no se puede realizar la operacion exponente... Linea: '+_opIzq.linea+" Columna: "+_opIzq.columna,
         tipo: null,
@@ -315,6 +351,13 @@ function mod(_opIzq, _opDer, _ambito){
         }
     }
     var respuesta = (opIzq.tipo===null ? opIzq.valor: "")+(opDer.tipo===null ? opDer.valor: "") //true+5+10+5
+    var err = {
+        TipoError: "Semántico",
+        Descripcion: 'No se puede realizar la operacion modulo',
+        Linea: _opIzq.linea,
+        Columna: _opIzq.columna
+    }
+    ListaErrores.push(err)
     return{
         valor: respuesta+'\nError semántico: no se puede realizar la operacion modulo... Linea: '+_opIzq.linea+" Columna: "+_opIzq.columna,
         tipo: null,
@@ -344,6 +387,13 @@ function men(_opIzq, _opDer, _ambito){
         }
     }
     var respuesta = (opIzq.tipo===null ? opIzq.valor: "")+(opDer.tipo===null ? opDer.valor: "") //true+5+10+5
+    var err = {
+        TipoError: "Semántico",
+        Descripcion: 'No se puede realizar la operacion negación',
+        Linea: _opIzq.linea,
+        Columna: _opIzq.columna
+    }
+    ListaErrores.push(err)
     return{
         valor: respuesta+'\nError semántico: no se puede realizar la operacion negación... Linea: '+_opIzq.linea+" Columna: "+_opIzq.columna,
         tipo: null,
@@ -373,6 +423,13 @@ function masmas(_opIzq, _opDer, _ambito){
         }
     }
     var respuesta = (opIzq.tipo===null ? opIzq.valor: "")+(opDer.tipo===null ? opDer.valor: "") //true+5+10+5
+    var err = {
+        TipoError: "Semántico",
+        Descripcion: 'No se puede realizar la operacion iterativa "++"',
+        Linea: _opIzq.linea,
+        Columna: _opIzq.columna
+    }
+    ListaErrores.push(err)
     return{
         valor: respuesta+'\nError semántico: no se puede realizar la operacion iterativa "++"... Linea: '+_opIzq.linea+" Columna: "+_opIzq.columna,
         tipo: null,
@@ -402,6 +459,13 @@ function menosmenos(_opIzq, _opDer, _ambito){
         }
     }
     var respuesta = (opIzq.tipo===null ? opIzq.valor: "")+(opDer.tipo===null ? opDer.valor: "") //true+5+10+5
+    var err = {
+        TipoError: "Semántico",
+        Descripcion: 'No se puede realizar la operacion iterativa "--"',
+        Linea: _opIzq.linea,
+        Columna: _opIzq.columna
+    }
+    ListaErrores.push(err)
     return{
         valor: respuesta+'\nError semántico: no se puede realizar la operacion iterativa "--"... Linea: '+_opIzq.linea+" Columna: "+_opIzq.columna,
         tipo: null,

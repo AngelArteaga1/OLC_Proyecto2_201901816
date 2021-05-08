@@ -4,6 +4,7 @@ const Operacion = require("../Operacion/Operacion")
 const Asignacion = require("./Asignacion")
 const Declaracion = require("./Declaracion")
 const TIPO_INSTRUCCION = require("../Enums/TipoInstruccion");
+const ListaErrores = require("../Enums/ListaErrores")
 
 function CicloFor(_instruccion, _ambito){
     //console.log(_instruccion)
@@ -57,8 +58,15 @@ function CicloFor(_instruccion, _ambito){
             valor: valor
         }
     }
+    var err = {
+        TipoError: "Semántico",
+        Descripcion: `No es una expresion de tipo BANDERA en la condicion del For`,
+        Linea: _instruccion.linea,
+        Columna: _instruccion.columna
+    }
+    ListaErrores.push(err)
     return {
-        cadena: `Error: No es una expresion de tipo BANDERA en la condicion... Linea: ${_instruccion.linea} Columna: ${_instruccion.columna}`,
+        cadena: `Error: No es una expresion de tipo BANDERA en la condicion del For... Linea: ${_instruccion.linea} Columna: ${_instruccion.columna}\n`,
         valor: valor
     }
 }

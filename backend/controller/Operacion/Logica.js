@@ -1,3 +1,4 @@
+const ListaErrores = require("../Enums/ListaErrores")
 const TIPO_DATO = require("../Enums/TipoDato")
 const TIPO_OPERACION = require("../Enums/TipoOperacion")
 const TIPO_VALOR = require("../Enums/TipoValor")
@@ -63,6 +64,13 @@ function or(_opIzq, _opDer, _ambito){
         }
     }
     var respuesta = (opIzq.tipo===null ? opIzq.valor: "")+(opDer.tipo===null ? opDer.valor: "") //true+5+10+5
+    var err = {
+        TipoError: "Semántico",
+        Descripcion: `No se puede comparar el valor de tipo ${opIzq.tipo} con el valor de tipo ${opDer.tipo}`,
+        Linea: _opIzq.linea,
+        Columna: _opIzq.columna
+    }
+    ListaErrores.push(err)
     return{
         valor: respuesta+ `\nError semántico: no se puede comparar el valor de tipo ${opIzq.tipo} \ncon el valor de tipo ${opDer.tipo}... Linea: +${_opIzq.linea}+" Columna: "+${_opIzq.columna}`,
         tipo: null,
@@ -98,6 +106,13 @@ function and(_opIzq, _opDer, _ambito){
         }
     }
     var respuesta = (opIzq.tipo===null ? opIzq.valor: "")+(opDer.tipo===null ? opDer.valor: "") //true+5+10+5
+    var err = {
+        TipoError: "Semántico",
+        Descripcion: `No se puede comparar el valor de tipo ${opIzq.tipo} con el valor de tipo ${opDer.tipo}`,
+        Linea: _opIzq.linea,
+        Columna: _opIzq.columna
+    }
+    ListaErrores.push(err)
     return{
         valor: respuesta+ `\nError semántico: no se puede comparar el valor de tipo ${opIzq.tipo} \ncon el valor de tipo ${opDer.tipo}... Linea: +${_opIzq.linea}+" Columna: "+${_opIzq.columna}`,
         tipo: null,
@@ -129,6 +144,13 @@ function not(_opIzq, _opDer, _ambito){
         }
     }
     var respuesta = (opIzq.tipo===null ? opIzq.valor: "")+(opDer.tipo===null ? opDer.valor: "") //true+5+10+5
+    var err = {
+        TipoError: "Semántico",
+        Descripcion: `No se puede comparar el valor de tipo ${opIzq.tipo} con el valor de tipo ${opDer.tipo}`,
+        Linea: _opIzq.linea,
+        Columna: _opIzq.columna
+    }
+    ListaErrores.push(err)
     return{
         valor: respuesta+ `\nError semántico: no se puede negar el valor de tipo ${opIzq.tipo} \ncon el valor de tipo ${opDer.tipo}... Linea: +${_opIzq.linea}+" Columna: "+${_opIzq.columna}`,
         tipo: null,

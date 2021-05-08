@@ -1,4 +1,5 @@
 const Ambito = require("../Ambito/Ambito")
+const ListaErrores = require("../Enums/ListaErrores")
 const TIPO_DATO = require("../Enums/TipoDato")
 const Operacion = require("../Operacion/Operacion")
 
@@ -34,12 +35,19 @@ function sentenciaSwitch(_instruccion, _ambito) {
                 }
             }
         } else {
+            var err = {
+                TipoError: "Semántico",
+                Descripcion: `No es una expresión válida para el Switch`,
+                Linea: _instruccion.lista_casos[i].linea,
+                Columna: _instruccion.lista_casos[i].columna
+            }
+            ListaErrores.push(err)
             return {
                 existeBreak: existeBreak,
                 existeContinue: existeContinue,
                 existeReturn: existeReturn,
                 valor: valor,
-                cadena: `Error: No es una expresión válida para el Switch... Linea: ${_instruccion.lista_casos[i].linea} Columna: ${_instruccion.lista_casos[i].columna}`
+                cadena: `Error: No es una expresión válida para el Switch... Linea: ${_instruccion.lista_casos[i].linea} Columna: ${_instruccion.lista_casos[i].columna}\n`
             }
         }
     }
