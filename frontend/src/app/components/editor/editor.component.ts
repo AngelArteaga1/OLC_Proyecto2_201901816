@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Simbolo } from '../../modules/simbolo';
 import { Observable } from 'rxjs';
 //importamos para el editor
 import { filter, take } from 'rxjs/operators';
@@ -35,9 +36,14 @@ export class EditorComponent implements OnInit {
   };
 
   code = "";
+  listaSimbolos: Simbolo[];
   editorTexto = new FormControl('');
   console = "";
   consola = new FormControl('');
+  showSimbolos = false;
+  showErrores = false;
+  showConsolas = true;
+  iteration = 0
 
   constructor(private monacoLoaderService: MonacoEditorLoaderService, private analizarService: AnalizarService) {
     this.monacoLoaderService.isMonacoLoaded$
@@ -61,6 +67,7 @@ export class EditorComponent implements OnInit {
           colors: {}
         });
       });
+      this.listaSimbolos = []
   }
   editorInit(editor: MonacoStandaloneCodeEditor) {
     // monaco.editor.setTheme('vs');
@@ -85,8 +92,13 @@ export class EditorComponent implements OnInit {
       prueba: this.editorTexto.value
     }
     this.analizarService.ejecutar(texto).subscribe((res:any)=>{
+      this.showErrores = false
+      this.showSimbolos = false
+      this.showConsolas = true
       console.log(res)
       this.consola.setValue(res.consola);
+      this.listaSimbolos = res.tablaSimbolos;
+      console.log(res.tablaSimbolos);
     }, err=>{
       this.consola.setValue("ERROR");
       console.log(err)

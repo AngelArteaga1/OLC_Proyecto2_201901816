@@ -11,16 +11,35 @@ class Ambito{
 
     addSimbolo(_s, _simbolo){
         this.tablaSimbolos.set(_s.toLowerCase(), _simbolo)
+        var cadenaEntorno = ""
+        var i = 0
+        for(let e=this; e!=null; e=e.anterior){
+            if(i == 0){
+                cadenaEntorno = e.entorno
+            } else {
+                cadenaEntorno = e.entorno + "=>" + cadenaEntorno
+            }
+            i++
+        }
         //INGRESAMOS A LA TABLA DE SIMBOLOS
+        var existe = false
+        for(let i = 0; i < ListaSimbolos.length; i++){
+            if(ListaSimbolos[i].Entorno == cadenaEntorno && ListaSimbolos[i].Identificador == _simbolo.id){
+                existe = true;
+                break;
+            }
+        }
         var sim = {
             Identificador: _simbolo.id,
             TipoVar: "Variable",
             Tipo: _simbolo.tipo,
-            Entorno: this.entorno,
+            Entorno: cadenaEntorno,
             Linea: _simbolo.linea,
             Columna: _simbolo.columna
         }
-        ListaSimbolos.push(sim)
+        if(!existe){
+            ListaSimbolos.push(sim)
+        }
     }
 
     addMetodo(_s, _metodo){

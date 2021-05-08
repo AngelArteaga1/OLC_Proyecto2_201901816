@@ -29,7 +29,8 @@ module.exports = (parser, app) => {
         var dot = grafica.graficar()
         var resultado = {
             arbol: ast,
-            consola: cadena //cadena
+            consola: cadena, //cadena
+            tablaSimbolos: ListaSimbolos
         }
         //GENERAMOS EL ARCHIVO DOT
         fs.writeFile("./controller/ReporteAST/AST.dot", dot, function (error) {
