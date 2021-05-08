@@ -95,6 +95,45 @@ const Instruccion = {
             columna: _columna
         }
     },
+    nuevoElseIf: function(_expresion, _instruccionesElseIf, _linea, _columna){
+        return {
+            tipo: TIPO_INSTRUCCION.ELSE_IF,
+            expresion: _expresion,
+            instruccionesElseIf: _instruccionesElseIf,
+            linea: _linea,
+            columna: _columna
+        }
+    },
+    nuevoIfElseIf: function(_expresion, _instruccionesIf, _lista_elseif, _instruccionesElse,  _linea, _columna){
+        return {
+            tipo: TIPO_INSTRUCCION.IF_ELSE_IF,
+            expresion: _expresion,
+            instruccionesIf: _instruccionesIf,
+            lista_elseif: _lista_elseif,
+            instruccionesElse: _instruccionesElse,
+            linea: _linea,
+            columna: _columna
+        }
+    },
+    nuevoSwitch: function(_expresion, _lista_casos, _default,  _linea, _columna){
+        return {
+            tipo: TIPO_INSTRUCCION.SWITCH,
+            expresion: _expresion,
+            lista_casos: _lista_casos,
+            default: _default,
+            linea: _linea,
+            columna: _columna
+        }
+    },
+    nuevoCaso: function(_expresion, _instrucciones,  _linea, _columna){
+        return {
+            tipo: TIPO_INSTRUCCION.CASE,
+            expresion: _expresion,
+            instrucciones: _instrucciones,
+            linea: _linea,
+            columna: _columna
+        }
+    },
     nuevoMetodo: function(_nombre, _lista_parametros, _instrucciones, _linea, _columna){
         return{
             tipo: TIPO_INSTRUCCION.DEC_METODO,

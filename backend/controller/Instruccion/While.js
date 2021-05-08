@@ -4,6 +4,13 @@ const Operacion = require("../Operacion/Operacion")
 
 function CicloWhile(_instruccion, _ambito){
     var mensaje = ""
+    var valor = {
+        valor: null,
+        tipo: null,
+        mensaje: "",
+        linea: _instruccion.linea,
+        columna: _instruccion.columna
+    }
     var operacion = Operacion(_instruccion.expresion, _ambito)
     mensaje += operacion.mensaje
     if(operacion.tipo === TIPO_DATO.BANDERA){
@@ -13,16 +20,26 @@ function CicloWhile(_instruccion, _ambito){
             //mensaje+=Bloque(_instruccion.instrucciones, nuevoAmbito)
             var exec = Bloque(_instruccion.instrucciones, nuevoAmbito)
             mensaje += exec.cadena
-            if (exec.existeBreak){
-                return mensaje
+            valor = exec.valor
+            if (exec.existeBreak || exec.existeReturn){
+                return {
+                    cadena: mensaje,
+                    valor: valor
+                }
             }
             //actualizamos
             operacion = Operacion(_instruccion.expresion, _ambito)
             mensaje += operacion.mensaje
         }
-        return mensaje
+        return {
+            cadena: mensaje,
+            valor: valor
+        }
     }
-    return `Error: No es una expresion de tipo BANDERA en la condicion... Linea: ${_instruccion.linea} Columna: ${_instruccion.columna}`
+    return {
+        cadena: `Error: No es una expresion de tipo BANDERA en la condicion... Linea: ${_instruccion.linea} Columna: ${_instruccion.columna}`,
+        valor: valor
+    }
 }
 
 module.exports = CicloWhile

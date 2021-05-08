@@ -98,6 +98,20 @@ class Graficador {
                 this.grafo += _nombrePadre + "->" + nombreHijo + ';\n'
                 this.graficarIfElse(instruccion, nombreHijo)
             }
+            else if (instruccion.tipo === TIPO_INSTRUCCION.IF_ELSE_IF) {
+                var nombreHijo = "Nodo" + this.contador
+                this.contador++
+                this.grafo += nombreHijo + '[label="IF_ELSE_IF"];\n'
+                this.grafo += _nombrePadre + "->" + nombreHijo + ';\n'
+                this.graficarIfElseIf(instruccion, nombreHijo)
+            }
+            else if (instruccion.tipo === TIPO_INSTRUCCION.SWITCH) {
+                var nombreHijo = "Nodo" + this.contador
+                this.contador++
+                this.grafo += nombreHijo + '[label="SWITCH"];\n'
+                this.grafo += _nombrePadre + "->" + nombreHijo + ';\n'
+                this.graficarSwitch(instruccion, nombreHijo)
+            }
             else if (instruccion.tipo === TIPO_INSTRUCCION.LLAMADA) {
                 var nombreHijo = "Nodo" + this.contador
                 this.contador++
@@ -125,6 +139,109 @@ class Graficador {
                 this.graficarPrint(instruccion, nombreHijo)
             }
         })
+    }
+
+    graficarSwitch(_instruccion, _padre) {
+        var nombreHijo = "Nodo" + this.contador
+        this.contador++
+        this.grafo += nombreHijo + '[label="DETERMINANTE"];\n'
+        this.grafo += _padre + "->" + nombreHijo + ';\n'
+        this.graficarOperacion(_instruccion.expresion, nombreHijo)
+        /**************************************/
+        //GRAFICAMOS EL LISTADO DE CASES
+        var listado = "Nodo" + this.contador
+        this.contador++
+        this.grafo += listado + '[label="LISTA_CASES"];\n'
+        this.grafo += _padre + "->" + listado + ';\n'
+        //console.log("llegaste aqui" + i);
+        //ITERAMOS
+        for (let i = 0; i < _instruccion.lista_casos.length; i++) {
+            //SOLO LA UNIDAD
+            var unidad = "Nodo" + this.contador
+            this.contador++
+            this.grafo += unidad + '[label="CASE"];\n'
+            this.grafo += listado + "->" + unidad + ';\n'
+            //AQUI YA VIENE COMO EN EL IF
+            var Condicion = `Nodo${this.contador}`
+            this.grafo += Condicion + `[label="OPERADOR"];\n`
+            this.grafo += unidad + "->" + Condicion + ";\n"
+            this.contador++
+            //OPERAMOS LA CONDICION
+            this.graficarOperacion(_instruccion.lista_casos[i].expresion, Condicion)
+            //LLAMAMOS AL CUERPO
+            var cuerpoCase = `Nodo${this.contador}`
+            this.contador++
+            this.grafo += cuerpoCase + '[label="CUERPO_CASE"];\n'
+            this.grafo += unidad + "->" + cuerpoCase + ';\n'
+            this.recorrerAST(cuerpoCase, _instruccion.lista_casos[i].instrucciones)
+        }
+        //GRAFICAMOS EL ELSE
+        if (_instruccion.default != null) {
+            var nombreHijo2 = `Nodo${this.contador}`
+            this.contador++
+            this.grafo += nombreHijo2 + '[label="DEFAULT"];\n'
+            this.grafo += _padre + "->" + nombreHijo2 + ';\n'
+            this.recorrerAST(nombreHijo2, _instruccion.default)
+        }
+    }
+
+
+    graficarIfElseIf(_instruccion, _padre) {
+        //console.log(_instruccion);
+        //GRAFICAMOS EL IF
+        var nombreHijo = "Nodo" + this.contador
+        this.contador++
+        this.grafo += nombreHijo + '[label="IF"];\n'
+        this.grafo += _padre + "->" + nombreHijo + ';\n'
+        //HIJOS IF
+        var condicion = `Nodo${this.contador}`
+        this.grafo += condicion + `[label="CONDICION"];\n`
+        this.grafo += nombreHijo + "->" + condicion + ";\n"
+        this.contador++
+        //OPERAMOS LA CONDICION hijo if
+        this.graficarOperacion(_instruccion.expresion, condicion)
+        //LLAMAMOS AL CUERPO hijo if
+        var nombre = `Nodo${this.contador}`
+        this.contador++
+        this.grafo += nombre + '[label="CUERPO_IF"];\n'
+        this.grafo += nombreHijo + "->" + nombre + ';\n'
+        this.recorrerAST(nombre, _instruccion.instruccionesIf)
+        /**************************************/
+        //GRAFICAMOS EL LISTADO DE ELSE IF
+        var listado = "Nodo" + this.contador
+        this.contador++
+        this.grafo += listado + '[label="LISTA_ELSE_IF"];\n'
+        this.grafo += _padre + "->" + listado + ';\n'
+        //console.log("llegaste aqui" + i);
+        //ITERAMOS
+        for (let i = 0; i < _instruccion.lista_elseif.length; i++) {
+            //SOLO LA UNIDAD
+            var unidad = "Nodo" + this.contador
+            this.contador++
+            this.grafo += unidad + '[label="ELSE_IF"];\n'
+            this.grafo += listado + "->" + unidad + ';\n'
+            //AQUI YA VIENE COMO EN EL IF
+            var Condicion = `Nodo${this.contador}`
+            this.grafo += Condicion + `[label="CONDICION"];\n`
+            this.grafo += unidad + "->" + Condicion + ";\n"
+            this.contador++
+            //OPERAMOS LA CONDICION
+            this.graficarOperacion(_instruccion.lista_elseif[i].expresion, Condicion)
+            //LLAMAMOS AL CUERPO
+            var cuerpoElseIf = `Nodo${this.contador}`
+            this.contador++
+            this.grafo += cuerpoElseIf + '[label="CUERPO_ELSE_IF"];\n'
+            this.grafo += unidad + "->" + cuerpoElseIf + ';\n'
+            this.recorrerAST(cuerpoElseIf, _instruccion.lista_elseif[i].instruccionesElseIf)
+        }
+        //GRAFICAMOS EL ELSE
+        if (_instruccion.instruccionesElse != null) {
+            var nombreHijo2 = `Nodo${this.contador}`
+            this.contador++
+            this.grafo += nombreHijo2 + '[label="CUERPO_ELSE"];\n'
+            this.grafo += _padre + "->" + nombreHijo2 + ';\n'
+            this.recorrerAST(nombreHijo2, _instruccion.instruccionesElse)
+        }
     }
 
     graficarIfElse(_instruccion, _padre) {
@@ -407,6 +524,13 @@ class Graficador {
             this.graficarOperacion(_expresion.opIzq, value)
             this.graficarOperacion(_expresion.opDer, value)
         }
+        else if (_expresion.tipo === TIPO_OPERACION.MEN || _expresion.tipo === TIPO_OPERACION.MASMAS || _expresion.tipo === TIPO_OPERACION.MENOSMENOS) {
+            var value = `Nodo${this.contador}`
+            this.grafo += value + `[label=" ${_expresion.tipo} \\n ${this.getSimbolo(_expresion.tipo)}"];\n`
+            this.grafo += _padre + "->" + value + ";\n"
+            this.contador++
+            this.graficarOperacion(_expresion.opIzq, value)
+        }
     }
 
     getSimbolo(_tipo) {
@@ -415,6 +539,12 @@ class Graficador {
                 return "+"
             case TIPO_OPERACION.RESTA:
                 return "-"
+            case TIPO_OPERACION.MEN:
+                return "-"
+            case TIPO_OPERACION.MENOSMENOS:
+                return "--"
+            case TIPO_OPERACION.MASMAS:
+                return "++"
             case TIPO_OPERACION.MULT:
                 return "*"
             case TIPO_OPERACION.DIV:

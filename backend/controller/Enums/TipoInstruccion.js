@@ -11,6 +11,10 @@ const TIPO_INSTRUCCION = {
     LLAMADA: 'LLAMADA',
     IF: 'IF',
     IF_ELSE: 'IF_ELSE',
+    IF_ELSE_IF: 'IF_ELSE_IF',
+    ELSE_IF: 'ELSE_IF',
+    SWITCH: 'SWITCH',
+    CASE: 'CASE',
     BREAK: 'BREAK',
     CONTINUE: 'CONTINUE',
     RETURN: 'RETURN'

@@ -22,6 +22,7 @@ function sentenciaIfElse(_instruccion, _ambito){
             existeContinue = exec.existeContinue
             existeReturn = exec.existeReturn
             valor = exec.valor
+            //console.log(valor);
         } else {
             var nuevoAmbito = new Ambito(_ambito, "Else")
             const Bloque = require("./Bloque")

@@ -8,6 +8,8 @@ const CicloFor = require("./For");
 const sentenciaIf = require("./If");
 const sentenciaIfElse = require("./IfElse");
 const Return = require("./Return");
+const sentenciaIfElseIf = require("./IfElseIf");
+const sentenciaSwitch = require("./Switch");
 
 function Bloque(_instrucciones, _ambito){
     var cadena = ""
@@ -47,9 +49,12 @@ function Bloque(_instrucciones, _ambito){
             }
         }
         else if(instruccion.tipo === TIPO_INSTRUCCION.WHILE){
-            var mensaje = CicloWhile(instruccion, _ambito)
+            var exec = CicloWhile(instruccion, _ambito)
+            var mensaje = exec.cadena
+            valor = exec.valor
             existeBreak = false
             existeContinue = false
+            existeReturn = false
             if(mensaje!=null){
                 cadena+=mensaje
             }
@@ -76,18 +81,46 @@ function Bloque(_instrucciones, _ambito){
                 cadena+=mensaje
             }
         }
+        else if(instruccion.tipo === TIPO_INSTRUCCION.IF_ELSE_IF){
+            var exec = sentenciaIfElseIf(instruccion, _ambito)
+            var mensaje = exec.cadena
+            existeBreak = exec.existeBreak
+            existeReturn = exec.existeReturn
+            valor = exec.valor
+            existeContinue = exec.existeContinue
+            if(mensaje!=null){
+                cadena+=mensaje
+            }
+        }
+        else if(instruccion.tipo === TIPO_INSTRUCCION.SWITCH){
+            var exec = sentenciaSwitch(instruccion, _ambito)
+            var mensaje = exec.cadena
+            existeBreak = exec.existeBreak
+            existeReturn = exec.existeReturn
+            valor = exec.valor
+            existeContinue = exec.existeContinue
+            if(mensaje!=null){
+                cadena+=mensaje
+            }
+        }
         else if(instruccion.tipo === TIPO_INSTRUCCION.DOWHILE){
-            var mensaje = CicloDoWhile(instruccion, _ambito)
+            var exec = CicloDoWhile(instruccion, _ambito)
+            var mensaje = exec.cadena
+            valor = exec.valor
             existeBreak = false
             existeContinue = false
+            existeReturn = false
             if(mensaje!=null){
                 cadena+=mensaje
             }
         }
         else if(instruccion.tipo === TIPO_INSTRUCCION.FOR){
-            var mensaje = CicloFor(instruccion, _ambito)
+            var exec = CicloFor(instruccion, _ambito)
+            var mensaje = exec.cadena
+            valor = exec.valor
             existeBreak = false
             existeContinue = false
+            existeReturn = false
             if(mensaje!=null){
                 cadena+=mensaje
             }

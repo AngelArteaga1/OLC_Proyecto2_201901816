@@ -246,21 +246,27 @@ ITERACION: identificador sumasuma ptcoma {$$ = INSTRUCCION.nuevaAsignacion($1, (
 
 IF: if parA EXPRESION parC llaveA OPCIONESMETODO llaveC {$$ = INSTRUCCION.nuevoIf($3, $6, this._$.first_line,this._$.first_column+1)}
   | if parA EXPRESION parC llaveA OPCIONESMETODO llaveC else llaveA OPCIONESMETODO llaveC {$$ = INSTRUCCION.nuevoIfElse($3, $6, $10, this._$.first_line,this._$.first_column+1)}
+  | if parA EXPRESION parC llaveA OPCIONESMETODO llaveC ELSEIF {$$ = INSTRUCCION.nuevoIfElseIf($3, $6, $8, null, this._$.first_line,this._$.first_column+1)}
+  | if parA EXPRESION parC llaveA OPCIONESMETODO llaveC ELSEIF else llaveA OPCIONESMETODO llaveC {$$ = INSTRUCCION.nuevoIfElseIf($3, $6, $8, $11, this._$.first_line,this._$.first_column+1)}
 ;
 
-SWITCH: switch parA EXPRESION parC llaveA LISTACASOS llaveC
-      //| switch parA EXPRESION parA llaveA LISTACASOS DEFAULT llaveC
+ELSEIF: ELSEIF CONEIF {$1.push($2); $$=$1;}
+      | CONEIF {$$=[$1];}
 ;
 
-LISTACASOS: LISTACASOS CASO
-            | CASO
-            | LISTACASOS DEFAULT
-            | DEFAULT
+CONEIF: else if parA EXPRESION parC llaveA OPCIONESMETODO llaveC {$$ = INSTRUCCION.nuevoElseIf($4, $7, this._$.first_line,this._$.first_column+1)}
 ;
 
-CASO: case EXPRESION dospts OPCIONESMETODO;
+SWITCH: switch parA EXPRESION parC llaveA LISTACASOS llaveC {$$ = INSTRUCCION.nuevoSwitch($3, $6, null, this._$.first_line,this._$.first_column+1)}
+      | switch parA EXPRESION parC llaveA LISTACASOS default dospts OPCIONESMETODO llaveC {$$ = INSTRUCCION.nuevoSwitch($3, $6, $9, this._$.first_line,this._$.first_column+1)}
+;
 
-DEFAULT: default dospts OPCIONESMETODO;
+LISTACASOS: LISTACASOS CASO {$1.push($2); $$=$1;}
+            | CASO {$$=[$1];}
+;
+
+CASO: case EXPRESION dospts OPCIONESMETODO {$$ = INSTRUCCION.nuevoCaso($2, $4, this._$.first_line,this._$.first_column+1)}
+;
 
 BREAK: break ptcoma {$$ = new INSTRUCCION.nuevoBreak(this._$.first_line,this._$.first_column+1)}
 ;

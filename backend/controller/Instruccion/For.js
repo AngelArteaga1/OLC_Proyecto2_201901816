@@ -9,6 +9,13 @@ function CicloFor(_instruccion, _ambito){
     //console.log(_instruccion)
     var mensaje = ""
     var error = ""
+    var valor = {
+        valor: null,
+        tipo: null,
+        mensaje: "",
+        linea: _instruccion.linea,
+        columna: _instruccion.columna
+    }
     var nuevoAmbito = new Ambito(_ambito, "For")
     if (_instruccion.declaracion.tipo === TIPO_INSTRUCCION.DECLARACION){
         error = Declaracion(_instruccion.declaracion, nuevoAmbito)
@@ -17,12 +24,15 @@ function CicloFor(_instruccion, _ambito){
         //console.log(_instruccion.declaracion);
         error = Asignacion(_instruccion.declaracion, nuevoAmbito)
     } else {
-        return error
+        return {
+            cadena: error,
+            valor: valor
+        }
     }
     //console.log(_instruccion.actualizacion)
     //console.log(nuevoAmbito)
     var condicion = Operacion(_instruccion.condicion, nuevoAmbito)
-    mensaje += operacion.mensaje
+    mensaje += condicion.mensaje
     //console.log(condicion)
     if(condicion.tipo === TIPO_DATO.BANDERA){
         while(condicion.valor){
@@ -30,17 +40,27 @@ function CicloFor(_instruccion, _ambito){
             //mensaje+=Bloque(_instruccion.instrucciones, nuevoAmbito2)
             var exec = Bloque(_instruccion.instrucciones, nuevoAmbito)
             mensaje += exec.cadena
-            if (exec.existeBreak){
-                return mensaje
+            valor = exec.valor
+            if (exec.existeBreak || exec.existeReturn){
+                return {
+                    cadena: mensaje,
+                    valor: valor
+                }
             }
             //actualizamos
             actualizacion = Asignacion(_instruccion.actualizacion, nuevoAmbito)
             condicion = Operacion(_instruccion.condicion, nuevoAmbito)
-            mensaje += operacion.mensaje
+            mensaje += condicion.mensaje
         }
-        return mensaje
+        return {
+            cadena: mensaje,
+            valor: valor
+        }
     }
-    return `Error: No es una expresion de tipo BANDERA en la condicion... Linea: ${_instruccion.linea} Columna: ${_instruccion.columna}`
+    return {
+        cadena: `Error: No es una expresion de tipo BANDERA en la condicion... Linea: ${_instruccion.linea} Columna: ${_instruccion.columna}`,
+        valor: valor
+    }
 }
 
 module.exports = CicloFor
