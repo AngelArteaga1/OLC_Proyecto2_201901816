@@ -158,7 +158,7 @@ AS_VAR: identificador igual EXPRESION ptcoma {$$ = INSTRUCCION.nuevaAsignacion($
 ;
 
 DEC_VECT: TIPO corA corC identificador igual new TIPO corA EXPRESION corC ptcoma //LISTA TIPO 1
-            | TIPO corA corC identificador igual llaveA LISTAVALORES llaveC ptcoma //LISTA TIPO 2
+        | TIPO corA corC identificador igual llaveA LISTAVALORES llaveC ptcoma //LISTA TIPO 2
 ;
 
 LISTAVALORES: LISTAVALORES coma EXPRESION {$1.push($3); $$=$1;}
@@ -245,7 +245,7 @@ CUERPOMETODO: DEC_VAR {$$=$1}
             | AS_LIST
             | AS_VAR {$$=$1}
             | IF {$$=$1}
-            | SWITCH
+            | SWITCH {$$=$1}
             | WHILE {$$=$1}
             | FOR {$$=$1}
             | DO_WHILE {$$=$1}

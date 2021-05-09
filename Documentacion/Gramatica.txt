@@ -1,0 +1,303 @@
+******************************GRAMATICA DEL LENGUAJE******************************
+
+-Estos son los simbolos lexicos que mi lenguaje puede leer:
+  *Estos simbolos solo los ignoramos ya que no deberia de hacer ninguna instruccion al leer:
+    'Espacios en blanco'
+    'Comentario simple'
+    'Comentario multilinea'
+  *Estos simbolos son los que pueden venir diferente pero igual los identificamos:
+    [0-9]+("."[0-9]+)\b  Este '(' un numero
+    [0-9]+               Este '(' un entero
+    ([a-zA-Z])([a-zA-Z0-9_])*  Este es '(' un identificador
+    ["\""](("\\\"")?([^"\""]))*["\""]  Este es '(' una cadena
+    ["\'"]([^"\'"])*["\'"] Este es '(' un caracter
+  *Estos son las palabras reservadas que lee la gramatica:
+    'clase'
+    'int'
+    'double'
+    'boolean'
+    'char'
+    'string'
+    'exec'
+    'void'
+    'print'
+    'new'
+    'list'
+    'add'
+    'if'
+    'else'
+    'switch'
+    'case'
+    'break'
+    'continue'
+    'default'
+    'while'
+    'for'
+    'do'
+    'return'
+    'true'
+    'false'
+  *Estos son los operadores y simbolos que manejamos:
+    "=="
+    "=" 
+    "||"
+    "&&"
+    "!="
+    "!" 
+    "<="
+    ">="
+    ">" 
+    "<" 
+    ","
+    "."
+    ";"
+    ":"
+    "{"
+    "}"
+    "*"
+    "/"
+    "--"
+    "-"
+    "++"
+    "+"
+    "^"
+    "!"
+    "%"
+    "("
+    ")"
+    "["
+    "]"
+    "PI"
+    "E"
+-Ahora definiré la parte sintactica del lenguaje:
+  *Estas son las presedencias de los operadores:
+    A la izquiera '||'
+    A la izquiera '&&'
+    A la derecha '!' '--' '++'
+    A la izquiera '==' '!=' '<' '<=' '>' '>='
+    A la izquiera '+' '-'
+    A la izquiera '*' '/' '%' 
+    A la izquiera '^'
+  *Estas son las producciones de mi lenguaje:
+    %El inicio solo llama a las opciones que puede tener el cuerpo global y finaliza la linea
+
+      INICIO: OPCIONESCUERPO EOF
+
+    %Esta produccion solo hace que pueda venir muchas veces la produccion del cuerpo, '(' que puedan venir varias instrucciones
+
+      OPCIONESCUERPO: OPCIONESCUERPO CUERPO
+                    | CUERPO
+
+    %Esta produccion es la que se encarga de llamar especificamente a ciertos simbolos que se subdividen dentro de las declaraciones globales del lenguaje
+
+      CUERPO: DEC_VAR {$$=$1}
+            | DEC_VECT
+            | DEC_LIST
+            | DEC_MET
+            | DEC_FUNC
+            | AS_VAR
+            | EXEC
+            | ITERACION
+
+    %La siguiete produccion es la encargada de poder leer el metodo al cual vamos a ejecutar con 'exec'
+
+      EXEC: 'exec' 'identificador' '(' ')' ';'
+          | 'exec' 'identificador' '(' LISTAVALORES ')' ';'
+
+    %La siguiente produccion es la encargada de leer las declaraciones de variables que se puedan hacer dentro del lenguaje
+
+      DEC_VAR: TIPO 'identificador' ';'
+             | TIPO 'identificador' '=' EXPRESION ';'
+
+    %La siguiente produccion es '(' poder asignar una variable dentro del lenguaje, tomando en cuanta las listas tambien
+
+      AS_VAR: identificador '=' EXPRESION ';'
+            | identificador '[' EXPRESION ']' '=' EXPRESION ';'
+
+    %La siguiente gramatica es '(' poder declarar vectores dentro del lenguaje
+
+      DEC_VECT: TIPO '[' ']' identificador '=' 'new' TIPO '[' EXPRESION ']' ';'
+              | TIPO '[' ']' identificador '=' '{' LISTAVALORES '}' ';' 
+
+    %La siguiente gramatica sirve '(' poder llamar recurivamente una lista de valores que son expresiones
+
+      LISTAVALORES: LISTAVALORES ',' EXPRESION
+                  | EXPRESION
+
+    %La siguiente produccion es '(' poder declarar las listas del lenguaje
+
+      DEC_LIST: 'list' '<' TIPO '>' identificador '=' 'new' 'list' '<' TIPO '>' ';'
+
+    %La siguiente produccion es '(' poder añadir valores a una lista del lenguaje
+
+      AS_LIST: identificador '.' 'add' '(' EXPRESION ')' ';'
+            |  identificador '[' '[' EXPRESION ']' ']' '=' EXPRESION ';'
+
+    %La siguiente produccion solo lee los tipos que existen dentro del lenguaje, palabras reservadas
+
+      TIPO: 'int' 
+          | 'double'
+          | 'string'
+          | 'char'
+          | 'boolean' 
+
+    %La siguiente produccion es '(' poder leer todas las operaciones o valores que podemos leer dentro del lenguaje, ya sea
+    como la suma, la resta o la multiplicacion que son aritmeticas, como tambien las producciones relacionales y logicas como
+    el or o mayor o igual que... estas producciones solo se van llamando a si mismas dandole prioridad a las precedencias de 
+    los operadores '(' que asi no sean unas producciones ambiguas y pueda leer la operacion sin problema
+
+      EXPRESION: EXPRESION '+' EXPRESION
+               | EXPRESION '-' EXPRESION
+               | EXPRESION '*' EXPRESION
+               | EXPRESION '/' EXPRESION
+               | EXPRESION '^' EXPRESION
+               | EXPRESION '%' EXPRESION
+               | '-' EXPRESION 
+               | '(' EXPRESION ')'
+               | EXPRESION '==' EXPRESION
+               | EXPRESION '!=' EXPRESION
+               | EXPRESION '<' EXPRESION
+               | EXPRESION '<=' EXPRESION
+               | EXPRESION '>' EXPRESION
+               | EXPRESION '>=' EXPRESION
+               | EXPRESION '||' EXPRESION
+               | EXPRESION '&&' EXPRESION 
+               | '!' EXPRESION 
+               | '(' TIPO ')' EXPRESION 
+               | EXPRESION '++'
+               | EXPRESION '--'
+               | identificador '[' EXPRESION ']'
+               | identificador '[' '[' EXPRESION ']' ']'
+               | identificador '('  ')'
+               | identificador '(' LISTAVALORES ')'
+               | numero
+               | entero
+               | 'true'
+               | 'false' 
+               | cadena
+               | identificador 
+               | caracter
+  
+    %La siguiente produccion se encarga de poder leer las intrucciones de imprimir en consola, recibiendo una expresion
+
+      PRINT: 'print' '(' EXPRESION ')' ';'
+            | 'print' '(' ')' ';'
+
+    %La siguiente produccion se encarga de leer las llamadas a metodos o funciones que puedan venir dentro del lenguaje
+
+      LLAMADA: identificador '('  ')' ';'
+             | identificador '(' LISTAVALORES ')' ';'
+
+    %La siguiente produccion se encarga de declarar los metodo dentro del cuerpo global
+
+      DEC_MET : 'void' identificador '(' ')' '{' OPCIONESMETODO '}'
+              | 'void' identificador '(' LISTAPARAMETROS ')' '{' OPCIONESMETODO '}'
+
+    %La siguiente produccion se encarga de delcara las funciones dentro del cuerpo global
+
+      DEC_FUNC : TIPO identificador '(' ')' '{' OPCIONESMETODO '}'
+               | TIPO identificador '(' LISTAPARAMETROS ')' '{' OPCIONESMETODO '}'
+
+    %La siguiente produccion se encarga de poder leer una lista de parametros separada por coma de manera recursiva
+
+      LISTAPARAMETROS: LISTAPARAMETROS ','  PARAMETROS
+                     | PARAMETROS
+
+    %La siguiente produccion es igual a la construccion de un parametro que reciben las funciones o metodos
+
+      PARAMETROS: TIPO identificador
+
+    %La siguiente produccion se encarga de poder enlistar las opciones que pueden venir dentro de un cuerpo
+    dentro de un metodo o funcion
+
+      OPCIONESMETODO: OPCIONESMETODO CUERPOMETODO
+                    | CUERPOMETODO
+
+    %La siguiente produccion solo divide todas las opciones que pueden venir dentro del cuerpo de un metodo o funcion
+
+      CUERPOMETODO: DEC_VAR
+                  | DEC_VECT
+                  | DEC_LIST
+                  | AS_LIST
+                  | AS_VAR
+                  | IF
+                  | SWITCH
+                  | WHILE
+                  | FOR 
+                  | DO_WHILE
+                  | LLAMADA
+                  | PRINT
+                  | BREAK
+                  | CONTINUE
+                  | RETURN
+                  | ITERACION
+
+    %La siguiente produccion se encarga de leer las iteraciones que puedes hacerce dentro del lenguaje
+
+      ITERACION: identificador '++' ';'
+               | identificador '--' ';'
+
+    %la siguiente produccion se encarga de leer las posibles entradas de if, tomando en cuenta los else if y los else
+
+      IF: if '(' EXPRESION ')' '{' OPCIONESMETODO '}' 
+        | if '(' EXPRESION ')' '{' OPCIONESMETODO '}' 
+        | if '(' EXPRESION ')' '{' OPCIONESMETODO '}' 
+        | if '(' EXPRESION ')' '{' OPCIONESMETODO '}'
+      ;
+
+    %La siguiente produccion se ncarga de enlistar los else if que puedan venir dentro de un if y un else
+
+      ELSEIF: ELSEIF CONEIF
+            | CONEIF
+
+    %La siguiente produccion indica la estructura de los else if que pueden venir dentro del lenguaje
+
+      CONEIF: else if '(' EXPRESION ')' '{' OPCIONESMETODO '}'
+
+    %La siguiente produccion indica que puede venir un switch sin default o con default
+
+      SWITCH: 'switch' '(' EXPRESION ')' '{' LISTACASOS '}'
+            | 'switch' '(' EXPRESION ')' '{' LISTACASOS 'default' ':' OPCIONESMETODO '}'
+
+    %La siguiente produccion se encarga de poder enlistar los casos dentro del switch
+
+      LISTACASOS: LISTACASOS CASO
+                | CASO
+
+    %La siguiente produccion define la estructura que tiene que tener un case dentro del switch
+
+      CASO: 'case' EXPRESION ':' OPCIONESMETODO
+
+    %La siguiente produccion define la estructura de un break dentro del lenguaje
+
+      BREAK: 'break' ';'
+
+    %La siguiente estructura define como puede venir un continue dentro del lenguaje
+
+      CONTINUE: 'continue' ';'
+
+    %La siguiente estructura define como puede venir un return dentro del lenguaje
+
+      RETURN: 'return' EXPRESION ';'
+            | 'return' ';'
+
+    %La siguiente produccion se encarga de leer un ciclo while y definir su estructura
+
+      WHILE: 'while' '(' EXPRESION ')' '{' OPCIONESMETODO '}'
+
+    %La siguiente produccion se encarga de poder leer un for dentro del lenguaje
+
+      FOR: 'for' '(' AS_DEC ';' EXPRESION ';' AS_DEC ')' '{' OPCIONESMETODO '}'
+
+    %La siguiente produccion se encarga de poder leer una asignacion, declaracion o una iteracion 
+    que se usa dentro del for de arriba.
+
+      AS_DEC: TIPO identificador '=' EXPRESION
+            | identificador '=' EXPRESION
+            | identificador '++'
+            | identificador '--'
+      ;
+
+    %Y por ultimo la siguiente produccion se encarga de leer un ciclo do while dentro del lenguaje
+
+      DO_WHILE: 'do' '{' OPCIONESMETODO '}' 'while' '(' EXPRESION ')' ';'
