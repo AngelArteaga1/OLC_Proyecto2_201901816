@@ -37,8 +37,7 @@ function OpLlamada(_expresion, _ambito) {
                     for (let i = 0; i < metodoEjecutar.lista_parametros.length; i++) {
                         var declaracionAsignacion = Instruccion.nuevaDeclaracion(metodoEjecutar.lista_parametros[i].id, lista_valores[i], metodoEjecutar.lista_parametros[i].tipo_dato, _linea, _columna)
                         const DecParametro = require("../Instruccion/DecParametro")
-                        const Declaracion = require("../Instruccion/Declaracion")
-                        var mensaje = Declaracion(declaracionAsignacion, nuevoAmbito)
+                        var mensaje = DecParametro(declaracionAsignacion, nuevoAmbito)
                         cadena += mensaje
                     }
                     //console.log(_ambito);

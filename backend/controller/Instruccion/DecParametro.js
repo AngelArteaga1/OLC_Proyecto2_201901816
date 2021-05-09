@@ -9,7 +9,7 @@ function DecParametro(_instruccion, _ambito){
     if(_instruccion.tipo_dato === TIPO_DATO.DECIMAL){
         var valor = 0.0
         if(_instruccion.valor != null){
-            var op = Operacion(_instruccion.valor, _ambito)
+            var op = Operacion(_instruccion.valor, _ambito.anterior)
             cadena = op.mensaje
             tipo = op.tipo;
             if(tipo === TIPO_DATO.DECIMAL){
@@ -44,7 +44,7 @@ function DecParametro(_instruccion, _ambito){
     else if(_instruccion.tipo_dato === TIPO_DATO.DOUBLE){
         var valor = 0.0
         if(_instruccion.valor != null){
-            var op = Operacion(_instruccion.valor, _ambito)
+            var op = Operacion(_instruccion.valor, _ambito.anterior)
             cadena = op.mensaje
             tipo = op.tipo;
             if(tipo === TIPO_DATO.DOUBLE || tipo === TIPO_DATO.DECIMAL){
@@ -80,7 +80,7 @@ function DecParametro(_instruccion, _ambito){
         var valor = "" // en caso sea sin asignación inicializamos la variable
         //si es una declaracion con asignacion
         if(_instruccion.valor!=null){
-            op = Operacion(_instruccion.valor, _ambito)
+            op = Operacion(_instruccion.valor, _ambito.anterior)
             cadena = op.mensaje
             tipo = op.tipo;
             if(tipo === TIPO_DATO.CADENA){
@@ -116,7 +116,7 @@ function DecParametro(_instruccion, _ambito){
         var valor = "" // en caso sea sin asignación inicializamos la variable
         //si es una declaracion con asignacion
         if(_instruccion.valor!=null){
-            op = Operacion(_instruccion.valor, _ambito)
+            op = Operacion(_instruccion.valor, _ambito.anterior)
             cadena = op.mensaje
             tipo = op.tipo
             if (tipo===TIPO_DATO.CARACTER){
@@ -153,7 +153,7 @@ function DecParametro(_instruccion, _ambito){
         var valor = false // en caso sea sin asignación inicializamos la variable
         //si es una declaracion con asignacion
         if(_instruccion.valor!=null){
-            op = Operacion(_instruccion.valor, _ambito)
+            op = Operacion(_instruccion.valor, _ambito.anterior)
             cadena = op.mensaje
             tipo = op.tipo
             //verificamos que el valor a asignar sea del mismo tipo

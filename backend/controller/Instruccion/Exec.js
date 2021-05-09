@@ -21,19 +21,10 @@ function Exec(_instruccion, _ambito) {
             if (_instruccion.lista_valores != null && metodoEjecutar.lista_parametros.length == _instruccion.lista_valores.length) {
                 var error = false;
                 for (let i = 0; i < metodoEjecutar.lista_parametros.length; i++) {
-                    //var op = Operacion(_instruccion.lista_valores[i]);
-                    //console.log(_instruccion.lista_valores[i])
-                    //console.log("SIGUIENTE");
                     var declaracionAsignacion = Instruccion.nuevaDeclaracion(metodoEjecutar.lista_parametros[i].id, _instruccion.lista_valores[i], metodoEjecutar.lista_parametros[i].tipo_dato, _instruccion.linea, _instruccion.columna)
-                    //console.log(declaracionAsignacion.id)
-                    //console.log(declaracionAsignacion.valor)
-                    var mensaje = Declaracion(declaracionAsignacion, nuevoAmbito)
+                    var mensaje = DecParametro(declaracionAsignacion, nuevoAmbito)
                     cadena += mensaje
                 }
-                //console.log(nuevoAmbito.tablaSimbolos);
-                //console.log("TREMENDO");
-                //console.log(_ambito);
-                //return Bloque(metodoEjecutar.instrucciones, nuevoAmbito)
                 var exec = Bloque(metodoEjecutar.instrucciones, nuevoAmbito)
                 var mensaje = exec.cadena
                 if (exec.existeBreak) {

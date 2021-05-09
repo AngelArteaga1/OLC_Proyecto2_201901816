@@ -66,14 +66,7 @@ function igualigual(_opIzq, _opDer, _ambito){
             linea: _opIzq.linea,
             columna: _opIzq.columna
         }
-    } /*else {
-        return {
-            valor: false,
-            tipo: TIPO_DATO.BANDERA,
-            linea: _opIzq.linea,
-            columna: _opIzq.columna
-        }
-    }*/
+    }
     var respuesta = (opIzq.tipo===null ? opIzq.valor: "")+(opDer.tipo===null ? opDer.valor: "") //true+5+10+5
     var err = {
         TipoError: "Semántico",
