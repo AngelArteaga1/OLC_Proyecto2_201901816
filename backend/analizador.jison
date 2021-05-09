@@ -79,7 +79,7 @@
 
 //VALORES DEL DATO
 ([a-zA-Z])([a-zA-Z0-9_])*  return 'identificador'
-["\""]([^"\""])*["\""]     return 'cadena'
+["\""](("\\\"")?([^"\""]))*["\""]     return 'cadena'
 ["\'"]([^"\'"])*["\'"]     return 'caracter'
 
 <<EOF>>               return 'EOF'

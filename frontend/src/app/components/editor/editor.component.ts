@@ -45,7 +45,8 @@ export class EditorComponent implements OnInit {
   showSimbolos = false;
   showErrores = false;
   showConsolas = true;
-  iteration = 0
+  showArbol = false;
+  arbolito = "assets/images/AST.png ";
 
   constructor(private monacoLoaderService: MonacoEditorLoaderService, private analizarService: AnalizarService) {
     this.monacoLoaderService.isMonacoLoaded$
@@ -98,6 +99,7 @@ export class EditorComponent implements OnInit {
       this.showErrores = false
       this.showSimbolos = false
       this.showConsolas = true
+      this.showArbol = false
       console.log(res)
       this.consola.setValue(res.consola);
       this.listaSimbolos = res.tablaSimbolos;
@@ -106,6 +108,17 @@ export class EditorComponent implements OnInit {
     }, err=>{
       this.consola.setValue("ERROR");
       console.log(err)
+    });
+  }
+
+  generar(){
+    this.analizarService.generarAST().subscribe((res:any)=>{
+      this.showConsolas = false
+      this.showErrores = false
+      this.showSimbolos = false
+      this.showArbol = true
+    }, err=>{
+      this.consola.setValue("ERROR");
     });
   }
 

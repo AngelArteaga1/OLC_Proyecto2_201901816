@@ -19,4 +19,13 @@ export class AnalizarService {
     return this.http.post<any>(baseURL + 'analizar', codigo, httpOptions);
   }
 
+  generarAST(): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+    return this.http.get(baseURL + 'generarAST', httpOptions);
+  }
+
 }

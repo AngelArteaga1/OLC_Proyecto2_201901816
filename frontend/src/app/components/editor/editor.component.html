@@ -1,6 +1,6 @@
 <!--NAVBAR-->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" (click)="showConsolas=true; showSimbolos=false; showErrores=false">Typesty</a>
+  <a class="navbar-brand" (click)="showConsolas=true; showSimbolos=false; showErrores=false; showArbol=false">Typesty</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
     aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -11,13 +11,13 @@
         <a class="nav-link" (click)="analizar()">Run</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link">Reporte AST</a>
+        <a class="nav-link" (click)="showConsolas=false; showSimbolos=false; showErrores=false; showArbol=true">Reporte AST</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" (click)="showConsolas=false; showSimbolos=true; showErrores=false">Tabla de Símbolos</a>
+        <a class="nav-link" (click)="showConsolas=false; showSimbolos=true; showErrores=false; showArbol=false">Tabla de Símbolos</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" (click)="showConsolas=false; showSimbolos=false; showErrores=true">Tabla de Errores</a>
+        <a class="nav-link" (click)="showConsolas=false; showSimbolos=false; showErrores=true; showArbol=false">Tabla de Errores</a>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
@@ -70,11 +70,20 @@
 
   <br>
 
+  <button (click)="generar()" type="button" class="btn btn-info text-dark" >Generar AST</button>
+  <a href="assets/images/AST.png" download type="submit" class="btn btn-outline-info">Descargar AST</a>
+
 </div>
 
 <div class="container-fluid">
 
   <br>
+
+  <div *ngIf="showArbol">
+    <div class="card-header fonti text-white">Arbol AST</div>
+    <img class="col-md-12" [src]="arbolito" alt="">
+  </div>
+
   <br>
 
   <div *ngIf="showSimbolos">

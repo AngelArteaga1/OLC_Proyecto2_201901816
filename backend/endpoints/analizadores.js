@@ -8,19 +8,16 @@ var fs = require('fs')
 module.exports = (parser, app) => {
     app.post('/analizar', (req, res) => {
         //Reseteamos las listas
-        while(ListaSimbolos.length > 0) {
+        while (ListaSimbolos.length > 0) {
             ListaSimbolos.pop();
         }
-        while(ListaErrores.length > 0) {
+        while (ListaErrores.length > 0) {
             ListaErrores.pop();
         }
         //ya leemos
         var prueba = req.body.prueba
         var ast = parser.parse(prueba)
-        var raiz = {
-            tipo: "RAIZ",
-            lista_instrucciones: ast
-        }
+
         var ast = parser.parse(prueba)
         const AmbitoGlobal = new Ambito(null, "Global")
         //var cadena = Bloque(ast, AmbitoGlobal)
@@ -39,13 +36,21 @@ module.exports = (parser, app) => {
                 console.log(error);
             }
         })
+        //RESPUESTA
         res.send(resultado)
     })
 
-    app.get('/', (req, res) => {
-        var respuesta = {
-            message: "Todo bien"
-        }
-        res.send(respuesta)
+    app.get('/generarAST', (req, res) => {
+        //GENERAMOS LA IMAGEN
+        const { exec } = require('child_process')
+        //exec('dot -Tpng ./controller/ReporteAST/AST.dot -o ./controller/ReporteAST/AST.png', (error, stdout, stderr) => {
+        exec('dot -Tpng ./controller/ReporteAST/AST.dot -o ../frontend/src/assets/images/AST.png', (error, stdout, stderr) => {
+            if (error) {
+                console.log(error.message);
+            }
+            if (stderr){
+                console.log(stderr);
+            }
+        })
     })
 }
