@@ -69,6 +69,7 @@
 "+"                   return 'suma'
 "^"                   return 'exponente'
 "!"                   return 'not'
+"?"                   return 'what'
 "%"                   return 'modulo'
 "("                   return 'parA'
 ")"                   return 'parC'
@@ -78,9 +79,9 @@
 "E"                   return 'E'
 
 //VALORES DEL DATO
-([a-zA-Z])([a-zA-Z0-9_])*  return 'identificador'
+([a-zA-Z])([a-zA-Z0-9_])*             return 'identificador'
 ["\""](("\\\"")?([^"\""]))*["\""]     return 'cadena'
-["\'"]([^"\'"])*["\'"]     return 'caracter'
+["'"](("\\'")?([^"'"]))*["'"]         return 'caracter'
 
 <<EOF>>               return 'EOF'
 .					{ 
@@ -108,8 +109,8 @@
 %left 'and'
 %right 'not' 'menosmenos' 'sumasuma'
 %left 'igualigual' 'diferente' 'menor' 'menorigual' 'mayor' 'mayorigual'
-%left 'suma' 'menos'
-%left 'multi' 'div' 'modulo' 
+%left 'suma' 'menos' 'dospts'
+%left 'multi' 'div' 'modulo' 'what'
 %left 'exponente'
 
 %left umenos
@@ -202,6 +203,7 @@ EXPRESION: EXPRESION suma EXPRESION {$$= INSTRUCCION.nuevaOperacionBinaria($1,$3
          | identificador corA corA EXPRESION corC corC // para listas
          | identificador parA  parC {$$= INSTRUCCION.nuevaOperacionBinaria($1,null, TIPO_OPERACION.LLAMADA,this._$.first_line,this._$.first_column+1);} //LLAMADA
          | identificador parA LISTAVALORES parC {$$= INSTRUCCION.nuevaOperacionBinaria($1,$3, TIPO_OPERACION.LLAMADA,this._$.first_line,this._$.first_column+1);} //LLAMADA
+         | EXPRESION what EXPRESION dospts EXPRESION //ternario
          | NUMBER {$$ = INSTRUCCION.nuevoValor(Number($1), TIPO_VALOR.DOUBLE, this._$.first_line,this._$.first_column+1)}
          | entero {$$ = INSTRUCCION.nuevoValor(Number($1), TIPO_VALOR.DECIMAL, this._$.first_line,this._$.first_column+1)}
          | true {$$ = INSTRUCCION.nuevoValor(($1), TIPO_VALOR.BANDERA, this._$.first_line,this._$.first_column+1)}
